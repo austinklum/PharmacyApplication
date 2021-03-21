@@ -1,0 +1,97 @@
+﻿@model PharmacyApplication.Models.User
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Pharmacy Application Login</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+        <table>
+            <tr>
+                <td>@Html.LabelFor(a => a.Username)</td>
+                @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("0"))
+                {
+                    <td>@Html.TextBoxFor(a => a.Username)</td>
+                }
+                @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("1") ||
+                  HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("2") ||
+                  HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("3"))
+                {
+                    <td><text>@HttpContextAccessor.HttpContext.Session.GetString("Username")</text></td>
+                }
+                <td>@Html.ValidationMessageFor(a => a.Username)</td>
+            </tr>
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("0"))
+            {
+                <tr>
+                    <td>@Html.LabelFor(a => a.Password)</td>
+                    <td>@Html.PasswordFor(a => a.Password)</td>
+                    <td>@Html.ValidationMessageFor(a => a.Password)</td>
+                </tr>
+            }
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("0"))
+            {
+                <tr>
+                    <td><input type="submit" value="Login" /></td>
+
+                </tr>
+            }
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("1"))
+            {
+                <tr>
+                    <td><text>@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</text></td>
+                    <td>@Html.TextBoxFor(a => a.SecQ1Response)</td>
+                    <td>@Html.ValidationMessageFor(a => a.SecQ1Response)</td>
+                </tr>
+            }
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("2"))
+            {
+                <tr>
+                    <td><text>@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</text></td>
+                    <td>@Html.TextBoxFor(a => a.SecQ2Response)</td>
+                    <td>@Html.ValidationMessageFor(a => a.SecQ2Response)</td>
+                </tr>
+            }
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("3"))
+            {
+                <tr>
+                    <td><text>@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</text></td>
+                    <td>@Html.TextBoxFor(a => a.SecQ3Response)</td>
+                    <td>@Html.ValidationMessageFor(a => a.SecQ3Response)</td>
+                </tr>
+            }
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("1") ||
+         HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("2") ||
+         HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("3"))
+            {
+                <tr>
+                    <td>
+                        <input type="submit" value="Verify" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </fieldset>
+}
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("4"))
+{
+    <h1>Your account has been locked. Please contact an administrator.</h1>
+}
