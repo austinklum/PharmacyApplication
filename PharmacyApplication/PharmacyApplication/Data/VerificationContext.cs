@@ -13,7 +13,7 @@ namespace PharmacyApplication.Data
         {
         }
 
-        public DbSet<VerifiedPatient> Patients { get; set; }
+        public DbSet<VerifiedPatient> VerifiedPatients { get; set; }
         public DbSet<VerifiedPhysician> Physicians { get; set; }
     }
 }
