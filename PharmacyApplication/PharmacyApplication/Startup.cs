@@ -28,6 +28,7 @@ namespace PharmacyApplication
         {
             services.AddControllersWithViews();
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
+            services.AddDbContext<DrugContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBContext")));
 
             services.AddMvc();
             services.AddDistributedMemoryCache();
