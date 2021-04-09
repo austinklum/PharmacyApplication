@@ -10,22 +10,22 @@ using PharmacyApplication.Models;
 
 namespace PharmacyApplication.Controllers
 {
-    public class DrugsController : Controller
+    public class VerifiedPatientsController : Controller
     {
-        private readonly DrugContext _context;
+        private readonly VerificationContext _context;
 
-        public DrugsController(DrugContext context)
+        public VerifiedPatientsController(VerificationContext context)
         {
             _context = context;
         }
 
-        // GET: Drugs
+        // GET: VerifiedPatients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Drugs.ToListAsync());
+            return View(await _context.VerifiedPatients.ToListAsync());
         }
 
-        // GET: Drugs/Details/5
+        // GET: VerifiedPatients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,19 +33,19 @@ namespace PharmacyApplication.Controllers
                 return NotFound();
             }
 
-            var drug = await _context.Drugs
+            var verifiedPatient = await _context.VerifiedPatients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (drug == null)
+            if (verifiedPatient == null)
             {
                 return NotFound();
             }
 
-            return View(drug);
+            return View(verifiedPatient);
         }
 
-        private bool DrugExists(int id)
+        private bool VerifiedPatientExists(int id)
         {
-            return _context.Drugs.Any(e => e.Id == id);
+            return _context.VerifiedPatients.Any(e => e.Id == id);
         }
     }
 }
