@@ -14,6 +14,6 @@ namespace PharmacyApplication.Data
         }
 
         public DbSet<VerifiedPatient> VerifiedPatients { get; set; }
-        public DbSet<VerifiedPhysician> Physicians { get; set; }
+        public DbSet<VerifiedPhysician> VerifiedPhysicians { get; set; }
     }
 }
