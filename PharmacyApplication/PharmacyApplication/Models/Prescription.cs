@@ -21,5 +21,8 @@ namespace PharmacyApplication.Models
         public string PatientAddress { get; set; }
         [DisplayName("Issued on")]
         public DateTime IssuedDate { get; set; }
+        public bool? PhysicianVerified { get; set; }
+        public bool? PatientVerified { get; set; }
+        public bool BillCreated { get; set; }
     }
 }
