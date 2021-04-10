@@ -27,15 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.IssuedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhysicianVerified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatientVerified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BillCreated)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -59,15 +50,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IssuedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhysicianVerified)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientVerified)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BillCreated)
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>

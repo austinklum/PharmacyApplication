@@ -9,59 +9,95 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.PhysicianName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PatientName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.PatientName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PatientDOB)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.PatientDOB)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PatientAddress)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.PatientAddress)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.IssuedDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.CurrentPrescription.IssuedDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianVerified)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianVerified)
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PhysicianVerified == true)
+             {
+                <p>Verified</p>
+             }
+            @if (Model.CurrentPrescription.PhysicianVerified == null)
+             {
+                <p>Not verified</p>
+             }
+            @if (Model.CurrentPrescription.PhysicianVerified == false)
+             {
+                <p>Verification failed</p>
+             }
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.PatientVerified)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentPrescription.PatientVerified)
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PatientVerified == true)
+             {
+                <p>Verified</p>
+             }
+            @if (Model.CurrentPrescription.PatientVerified == null)
+             {
+                <p>Not verified</p>
+             }
+            @if (Model.CurrentPrescription.PatientVerified == false)
+             {
+                <p>Verification failed</p>
+             }
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
+             {
+                if(Model.CurrentPrescription.BillCreated)
+                {
+                    <p>Creation complete</p>
+                }
+                else
+                {
+                    <p>Bill not yet created</p>
+                }
+             }
+             else
+             {
+                <p>Not created, verification needed</p>
+             }
         </dd>
     </dl>
 </div>
