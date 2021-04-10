@@ -1,0 +1,143 @@
+﻿@model PharmacyApplication.Models.PrescriptionDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientDOB)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientDOB)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientAddress)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientAddress)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.IssuedDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CurrentPrescription.IssuedDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianVerified)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PhysicianVerified == true)
+             {
+                <p>Verified</p>
+             }
+            @if (Model.CurrentPrescription.PhysicianVerified == null)
+             {
+                <p>Not verified</p>
+             }
+            @if (Model.CurrentPrescription.PhysicianVerified == false)
+             {
+                <p>Verification failed</p>
+             }
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientVerified)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PatientVerified == true)
+             {
+                <p>Verified</p>
+             }
+            @if (Model.CurrentPrescription.PatientVerified == null)
+             {
+                <p>Not verified</p>
+             }
+            @if (Model.CurrentPrescription.PatientVerified == false)
+             {
+                <p>Verification failed</p>
+             }
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
+             {
+                if(Model.CurrentPrescription.BillCreated)
+                {
+                    <p>Creation complete</p>
+                }
+                else
+                {
+                    <p>Bill not yet created</p>
+                }
+             }
+             else
+             {
+                <p>Not created, verification needed</p>
+             }
+        </dd>
+    </dl>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].DrugName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].Dosage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].RefillCount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in Model.PrescribedDrugs)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefillCount)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

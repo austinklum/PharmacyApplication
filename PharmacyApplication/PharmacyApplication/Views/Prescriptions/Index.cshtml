@@ -1,0 +1,80 @@
+﻿@model IEnumerable<PharmacyApplication.Models.Prescription>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Prescriptions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhysicianName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhysicianLicenseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientDOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssuedDate)
+            </th>
+            <th>
+                <p>Status</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhysicianName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhysicianLicenseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientDOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssuedDate)
+            </td>
+            <td>
+                @if (item.PhysicianVerified == true && item.PatientVerified == true)
+                {
+                    if (item.BillCreated)
+                    {
+                        <p>Bill created</p>
+                    }
+                    else
+                    {
+                        <p>Bill not yet created</p>
+                    }
+                }
+                else
+                {
+                    <p>Verification needed</p>
+                }
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
