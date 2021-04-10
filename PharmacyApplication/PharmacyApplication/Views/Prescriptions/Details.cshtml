@@ -1,4 +1,4 @@
-﻿@model PharmacyApplication.Models.Prescription
+﻿@model PharmacyApplication.Models.PrescriptionDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,61 +10,98 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhysicianName)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhysicianName)
+            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhysicianLicenseNumber)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhysicianLicenseNumber)
+            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianLicenseNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientName)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientName)
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientDOB)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientDOB)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientDOB)
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientDOB)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientAddress)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientAddress)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientAddress)
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientAddress)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssuedDate)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.IssuedDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssuedDate)
+            @Html.DisplayFor(model => model.CurrentPrescription.IssuedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhysicianVerified)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianVerified)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhysicianVerified)
+            @Html.DisplayFor(model => model.CurrentPrescription.PhysicianVerified)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientVerified)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.PatientVerified)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientVerified)
+            @Html.DisplayFor(model => model.CurrentPrescription.PatientVerified)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BillCreated)
+            @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BillCreated)
+            @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
         </dd>
     </dl>
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].DrugName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].Dosage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].RefillCount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in Model.PrescribedDrugs)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefillCount)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

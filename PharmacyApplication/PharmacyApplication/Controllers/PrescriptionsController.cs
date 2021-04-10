@@ -12,17 +12,19 @@ namespace PharmacyApplication.Controllers
 {
     public class PrescriptionsController : Controller
     {
-        private readonly PrescriptionContext _context;
+        private readonly PrescriptionContext _prescriptionContext;
+        private readonly DrugContext _drugContext;
 
-        public PrescriptionsController(PrescriptionContext context)
+        public PrescriptionsController(PrescriptionContext prescriptionContext, DrugContext drugContext)
         {
-            _context = context;
+            _prescriptionContext = prescriptionContext;
+            _drugContext = drugContext;
         }
 
         // GET: Prescriptions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Prescriptions.ToListAsync());
+            return View(await _prescriptionContext.Prescriptions.ToListAsync());
         }
 
         // GET: Prescriptions/Details/5
@@ -33,19 +35,27 @@ namespace PharmacyApplication.Controllers
                 return NotFound();
             }
 
-            var prescription = await _context.Prescriptions
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var prescription = await _prescriptionContext.Prescriptions.FirstAsync(m => m.Id == id);
             if (prescription == null)
             {
                 return NotFound();
             }
 
-            return View(prescription);
+            List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == id).ToList();
+
+            foreach(PrescribedDrug pd in prescribedDrugs)
+            {
+                pd.DrugName = _drugContext.Drugs.First(d => d.Id == pd.DrugId).MedicalName;
+            }
+
+            PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
+
+            return View(vm);
         }
 
         private bool PrescriptionExists(int id)
         {
-            return _context.Prescriptions.Any(e => e.Id == id);
+            return _prescriptionContext.Prescriptions.Any(e => e.Id == id);
         }
     }
 }

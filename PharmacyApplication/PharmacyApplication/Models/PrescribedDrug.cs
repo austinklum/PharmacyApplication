@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,5 +16,8 @@ namespace PharmacyApplication.Models
         public string Dosage { get; set; }
         [DisplayName("Refill Count")]
         public int RefillCount { get; set; }
+
+        [NotMapped]
+        public string DrugName { get; set; }
     }
 }
