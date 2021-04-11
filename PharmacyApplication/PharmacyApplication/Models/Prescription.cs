@@ -26,6 +26,6 @@ namespace PharmacyApplication.Models
         [DisplayName("Patient Verification Status")]
         public bool? PatientVerified { get; set; }
         [DisplayName("Bill Status")]
-        public bool BillCreated { get; set; }
+        public bool? BillCreated { get; set; }
     }
 }
