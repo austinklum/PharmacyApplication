@@ -12,36 +12,16 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MedicalName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MedicalName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Stock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CostPer)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CostPer)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RecommendedDose)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RecommendedDose)
-        </dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MedicalName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.MedicalName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Type)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Type)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Stock)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Stock)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CostPer)</dt>
+        <dd class="col-sm-10"><label>$</label>@Html.DisplayFor(model => model.CostPer)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.RecommendedDose)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.RecommendedDose)</dd>
     </dl>
 </div>
 <div>
