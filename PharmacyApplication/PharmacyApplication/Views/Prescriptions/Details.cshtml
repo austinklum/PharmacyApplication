@@ -67,17 +67,18 @@
         </dt>
         <dd class="col-sm-9">
             @if (Model.CurrentPrescription.PatientVerified == true)
-             {
+            {
                 <p>Verified</p>
-             }
+            }
             @if (Model.CurrentPrescription.PatientVerified == null)
-             {
+            {
                 <p>Not verified</p>
-             }
+                <a asp-controller="VerifiedPatients" asp-action="Verify" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block">Verify</a>
+            }
             @if (Model.CurrentPrescription.PatientVerified == false)
-             {
+            {
                 <p>Verification failed</p>
-             }
+            }
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
