@@ -12,17 +12,21 @@ namespace PharmacyApplication.Controllers
 {
     public class VerifiedPatientsController : Controller
     {
-        private readonly VerificationContext _context;
+        private readonly VerificationContext _verificationContext;
+        private readonly PrescriptionContext _prescriptionContext;
+        private readonly DrugContext _drugContext;
 
-        public VerifiedPatientsController(VerificationContext context)
+        public VerifiedPatientsController(VerificationContext verificationContext, PrescriptionContext prescriptionContext, DrugContext drugContext)
         {
-            _context = context;
+            _verificationContext = verificationContext;
+            _prescriptionContext = prescriptionContext;
+            _drugContext = drugContext;
         }
 
         // GET: VerifiedPatients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.VerifiedPatients.ToListAsync());
+            return View(await _verificationContext.VerifiedPatients.ToListAsync());
         }
 
         // GET: VerifiedPatients/Details/5
@@ -33,7 +37,7 @@ namespace PharmacyApplication.Controllers
                 return NotFound();
             }
 
-            var verifiedPatient = await _context.VerifiedPatients
+            var verifiedPatient = await _verificationContext.VerifiedPatients
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (verifiedPatient == null)
             {
@@ -43,9 +47,22 @@ namespace PharmacyApplication.Controllers
             return View(verifiedPatient);
         }
 
+        public IActionResult Verify(int id)
+        {
+            Prescription prescription = _prescriptionContext.Prescriptions.First(p => p.Id == id);
+
+            VerifiedPatient patient = _verificationContext.VerifiedPatients.FirstOrDefault(p => p.Name == prescription.PatientName && p.Address == prescription.PatientAddress && p.DateOfBirth == prescription.PatientDOB);
+
+            prescription.PatientVerified = patient != null;
+            _prescriptionContext.Prescriptions.Update(prescription);
+            _prescriptionContext.SaveChanges();
+
+            return RedirectToAction("Details", "Prescriptions", new {id = prescription.Id});
+        }
+
         private bool VerifiedPatientExists(int id)
         {
-            return _context.VerifiedPatients.Any(e => e.Id == id);
+            return _verificationContext.VerifiedPatients.Any(e => e.Id == id);
         }
     }
 }
