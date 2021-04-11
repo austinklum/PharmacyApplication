@@ -51,20 +51,12 @@ namespace PharmacyApplication.Controllers
         {
             Prescription prescription = _prescriptionContext.Prescriptions.First(p => p.Id == id);
 
-            List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == prescription.Id).ToList();
-
-            foreach (PrescribedDrug pd in prescribedDrugs)
-            {
-                pd.DrugName = _drugContext.Drugs.First(d => d.Id == pd.DrugId).MedicalName;
-            }
-
-            VerifiedPatient patient = _verificationContext.VerifiedPatients.FirstOrDefault(p => p.Name == prescription.PatientName && p.Address == p.Address && p.DateOfBirth == prescription.PatientDOB);
+            VerifiedPatient patient = _verificationContext.VerifiedPatients.FirstOrDefault(p => p.Name == prescription.PatientName && p.Address == prescription.PatientAddress && p.DateOfBirth == prescription.PatientDOB);
 
             prescription.PatientVerified = patient != null;
             _prescriptionContext.Prescriptions.Update(prescription);
             _prescriptionContext.SaveChanges();
 
-            PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
             return RedirectToAction("Details", "Prescriptions", new {id = prescription.Id});
         }
 
