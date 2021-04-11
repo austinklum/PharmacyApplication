@@ -1,5 +1,9 @@
 ﻿@model PharmacyApplication.Models.PrescriptionDetailsViewModel
 
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -86,20 +90,29 @@
         </dt>
         <dd class="col-sm-9">
             @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
-             {
-                if(Model.CurrentPrescription.BillCreated)
+            {
+                if (Model.CurrentPrescription.BillCreated == true)
                 {
                     <p>Creation complete</p>
                 }
-                else
+                if(Model.CurrentPrescription.BillCreated == false)
                 {
                     <p>Bill not yet created</p>
+                    <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block">Create Bill</a>
+                    @if (!HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation").Equals(""))
+                    {
+                        <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation")</span>
+                    }
                 }
-             }
-             else
-             {
+                if(Model.CurrentPrescription.BillCreated == null)
+                {
+                    <p>Bill created, awaiting response from insurance</p>
+                }
+            }
+            else
+            {
                 <p>Not created, verification needed</p>
-             }
+            }
         </dd>
     </dl>
 </div>
@@ -121,22 +134,22 @@
         </tr>
     </thead>
     <tbody>
-       @foreach (var item in Model.PrescribedDrugs)
+        @foreach (var item in Model.PrescribedDrugs)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DrugName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dosage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RefillCount)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DrugName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dosage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefillCount)
+                </td>
+            </tr>
         }
     </tbody>
 </table>

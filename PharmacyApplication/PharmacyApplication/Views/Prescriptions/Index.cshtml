@@ -57,11 +57,15 @@
             <td>
                 @if (item.PhysicianVerified == true && item.PatientVerified == true)
                 {
-                    if (item.BillCreated)
+                    if (item.BillCreated == true)
                     {
                         <p>Bill created</p>
                     }
-                    else
+                    if(item.BillCreated == null)
+                    {
+                        <p>Waiting on insurance response</p>
+                    }
+                    if (item.BillCreated == false)
                     {
                         <p>Bill not yet created</p>
                     }
