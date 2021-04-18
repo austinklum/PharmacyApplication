@@ -5,7 +5,12 @@
 }
 
 <h1>Verified Patients</h1>
-
+<form asp-controller="VerifiedPatients" asp-action="Index" method="get">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -14,6 +19,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pronouns)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
@@ -31,10 +39,13 @@
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Pronouns)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" class="btn btn-primary btn-block" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }
