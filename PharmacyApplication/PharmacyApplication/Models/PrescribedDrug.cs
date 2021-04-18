@@ -17,6 +17,7 @@ namespace PharmacyApplication.Models
         [DisplayName("Refill Count")]
         public int RefillCount { get; set; }
         public double CoveredAmount { get; set; }
+        public bool Returned { get; set; }
 
         [NotMapped]
         [DisplayName("Drug Name")]
