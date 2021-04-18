@@ -131,25 +131,38 @@
             <th>
                 @Html.DisplayNameFor(model => model.PrescribedDrugs[0].RefillCount)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].CoveredAmount)
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.PrescribedDrugs)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DrugName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Dosage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RefillCount)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefillCount)
+            </td>
+            <td>
+                @if (item.Returned)
+                {
+                    <label>$</label>@Html.DisplayFor(modelItem => item.CoveredAmount)
+                }
+                else
+                {
+                    <p>No response yet</p>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

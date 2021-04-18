@@ -16,6 +16,7 @@ namespace PharmacyApplication.Models
         public string Dosage { get; set; }
         [DisplayName("Refill Count")]
         public int RefillCount { get; set; }
+        [DisplayName("Covered Amount")]
         public double CoveredAmount { get; set; }
         public bool Returned { get; set; }
 
