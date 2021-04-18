@@ -31,10 +31,20 @@ namespace PharmacyApplication.Controllers
         }
 
         // GET: Prescriptions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool includeProcessed)
         {
+            List<Prescription> prescriptions = (from p in _prescriptionContext.Prescriptions select p).ToList();
+            if(!includeProcessed)
+            {
+                prescriptions = prescriptions.Where(p => p.BillCreated == false).ToList();
+            }
+            PrescriptionsViewModel vm = new PrescriptionsViewModel
+            {
+                Prescriptions = prescriptions,
+                IncludeProcessed = includeProcessed,
+            };
             HttpContext.Session.SetString("PrescriptionFillValidation", "");
-            return View(await _prescriptionContext.Prescriptions.ToListAsync());
+            return View(vm);
         }
 
         // GET: Prescriptions/Details/5

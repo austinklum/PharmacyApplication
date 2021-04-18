@@ -1,31 +1,40 @@
-﻿@model IEnumerable<PharmacyApplication.Models.Prescription>
+﻿@model PharmacyApplication.Models.PrescriptionsViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Prescriptions</h1>
+<form asp-controller="Prescriptions" asp-action="Index" method="get">
+    <p>
 
+        
+        Include Completed: <input type="checkbox" asp-for="IncludeProcessed" />
+        <div>
+            <input type="submit" value="Update" class="btn btn-secondary btn-block text-light" style="width: 15%" />
+        </div>
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PhysicianName)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].PhysicianName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhysicianLicenseNumber)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].PhysicianLicenseNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PatientName)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].PatientName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PatientDOB)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].PatientDOB)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PatientAddress)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].PatientAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IssuedDate)
+                @Html.DisplayNameFor(model => model.Prescriptions[0].IssuedDate)
             </th>
             <th>
                 <p>Status</p>
@@ -34,51 +43,59 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhysicianName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhysicianLicenseNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientDOB)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IssuedDate)
-            </td>
-            <td>
-                @if (item.PhysicianVerified == true && item.PatientVerified == true)
-                {
-                    if (item.SentToInsurance == true)
+        @foreach (var item in Model.Prescriptions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhysicianName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhysicianLicenseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientDOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssuedDate)
+                </td>
+                <td>
+                    @if (item.PhysicianVerified == true && item.PatientVerified == true)
                     {
-                        <p>Response Recieved</p>
+                        if (item.SentToInsurance == true)
+                        {
+                            if (item.BillCreated)
+                            {
+                                <p>Bill Created</p>
+                            }
+                            else
+                            {
+                                <p>Response Recieved</p>
+                            }
+                        }
+                        if (item.SentToInsurance == null)
+                        {
+                            <p>Waiting on insurance response</p>
+                        }
+                        if (item.SentToInsurance == false)
+                        {
+                            <p>Not yet sent to insurance</p>
+                        }
                     }
-                    if(item.SentToInsurance == null)
+                    else
                     {
-                        <p>Waiting on insurance response</p>
+                        <p>Verification needed</p>
                     }
-                    if (item.SentToInsurance == false)
-                    {
-                        <p>Not yet sent to insurance</p>
-                    }
-                }
-                else
-                {
-                    <p>Verification needed</p>
-                }
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-block">Details</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-block">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
