@@ -98,7 +98,7 @@
                 if(Model.CurrentPrescription.SentToInsurance == false)
                 {
                     <p>Not yet sent to insurance</p>
-                    <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block">Send to insurance</a>
+                    <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 25%">Send to insurance</a>
                     @if (!HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation").Equals(""))
                     {
                         <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation")</span>
@@ -131,28 +131,41 @@
             <th>
                 @Html.DisplayNameFor(model => model.PrescribedDrugs[0].RefillCount)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].CoveredAmount)
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.PrescribedDrugs)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DrugName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Dosage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RefillCount)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefillCount)
+            </td>
+            <td>
+                @if (item.Returned)
+                {
+                    <label>$</label>@Html.DisplayFor(modelItem => item.CoveredAmount)
+                }
+                else
+                {
+                    <p>No response yet</p>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary btn-block" style="width: 15%">Back to List</a>
 </div>

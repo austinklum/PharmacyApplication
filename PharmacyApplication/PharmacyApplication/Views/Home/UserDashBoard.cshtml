@@ -11,10 +11,9 @@
         <p>
             <text>Welcome @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()</text>
         </p>
-        <p>
-            <text>You are a @HttpContextAccessor.HttpContext.Session.GetString("Role").ToString()</text>
-        </p>
     }
+    <h4>Unfinished prescriptions</h4>
+    @await Component.InvokeAsync("PrescriptionList")
     @using (Html.BeginForm("LogOut", "Home", FormMethod.Post))
     {
         <input type="submit" value="Log out" />

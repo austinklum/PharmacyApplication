@@ -4,17 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Prescriptions</h1>
-<form asp-controller="Prescriptions" asp-action="Index" method="get">
-    <p>
-
-        
-        Include Completed: <input type="checkbox" asp-for="IncludeProcessed" />
-        <div>
-            <input type="submit" value="Update" class="btn btn-secondary btn-block text-light" style="width: 15%" />
-        </div>
-    </p>
-</form>
 <table class="table">
     <thead>
         <tr>
