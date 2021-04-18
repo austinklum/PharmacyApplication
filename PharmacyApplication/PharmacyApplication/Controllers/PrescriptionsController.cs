@@ -85,7 +85,17 @@ namespace PharmacyApplication.Controllers
             }
 
             // send messages to insurance to get values back
+            SendPrescription(prescription, prescribedDrugs);
 
+            prescription.SentToInsurance = null;
+            _prescriptionContext.Prescriptions.Update(prescription);
+            _prescriptionContext.SaveChanges();
+
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        private void SendPrescription(Prescription prescription, List<PrescribedDrug> prescribedDrugs)
+        {
             int holderId = _verificationContext.VerifiedPatients.First(p => p.Name == prescription.PatientName).Id;
             PTransaction transaction = new PTransaction
             {
@@ -112,7 +122,7 @@ namespace PharmacyApplication.Controllers
 
             WebResponse response = httpRequest.GetResponse();
 
-            foreach(PrescribedDrug pd in prescribedDrugs)
+            foreach (PrescribedDrug pd in prescribedDrugs)
             {
                 Subtransaction subtransaction = new Subtransaction
                 {
@@ -142,12 +152,6 @@ namespace PharmacyApplication.Controllers
 
                 WebResponse subtransactionResponse = request.GetResponse();
             }
-
-            prescription.BillCreated = null;
-            _prescriptionContext.Prescriptions.Update(prescription);
-            _prescriptionContext.SaveChanges();
-
-            return RedirectToAction("Details", new { id = id });
         }
 
         private bool PrescriptionExists(int id)

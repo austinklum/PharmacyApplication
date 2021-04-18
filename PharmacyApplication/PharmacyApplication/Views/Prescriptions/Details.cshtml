@@ -91,22 +91,22 @@
         <dd class="col-sm-9">
             @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
             {
-                if (Model.CurrentPrescription.BillCreated == true)
+                if (Model.CurrentPrescription.SentToInsurance == true)
                 {
-                    <p>Creation complete</p>
+                    <p>Recieved Response</p>
                 }
-                if(Model.CurrentPrescription.BillCreated == false)
+                if(Model.CurrentPrescription.SentToInsurance == false)
                 {
-                    <p>Bill not yet created</p>
-                    <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block">Create Bill</a>
+                    <p>Not yet sent to insurance</p>
+                    <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block">Send to insurance</a>
                     @if (!HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation").Equals(""))
                     {
                         <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation")</span>
                     }
                 }
-                if(Model.CurrentPrescription.BillCreated == null)
+                if(Model.CurrentPrescription.SentToInsurance == null)
                 {
-                    <p>Bill created, awaiting response from insurance</p>
+                    <p>Sent to insurance, waiting for response</p>
                 }
             }
             else
