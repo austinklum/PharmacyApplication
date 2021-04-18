@@ -24,9 +24,14 @@ namespace PharmacyApplication.Controllers
         }
 
         // GET: VerifiedPatients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _verificationContext.VerifiedPatients.ToListAsync());
+            var patients = from p in _verificationContext.VerifiedPatients select p;
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                patients = patients.Where(p => p.Name.Contains(searchString) || p.Address.Contains(searchString));
+            }
+            return View(await patients.ToListAsync());
         }
 
         // GET: VerifiedPatients/Details/5
