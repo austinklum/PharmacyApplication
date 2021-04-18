@@ -80,7 +80,9 @@ namespace PharmacyApplication.Controllers
         [HttpPost]
         public async Task<ActionResult<PrescribedDrug>> PostPrescribedDrug(PrescribedDrug prescribedDrug)
         {
-            _context.PrescribedDrugs.Add(prescribedDrug);
+            PrescribedDrug found = _context.PrescribedDrugs.First(p => p.Id == prescribedDrug.Id);
+            found.CoveredAmount = prescribedDrug.CoveredAmount;
+            _context.PrescribedDrugs.Update(found);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPrescribedDrug), new { id = prescribedDrug.Id }, prescribedDrug);
