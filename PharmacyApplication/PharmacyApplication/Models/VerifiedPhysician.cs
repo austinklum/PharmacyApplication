@@ -12,5 +12,6 @@ namespace PharmacyApplication.Models
         public string Name { get; set; }
         [DisplayName("License Number")]
         public string LicenseNumber { get; set; }
+        public string Pronouns { get; set; }
     }
 }
