@@ -15,5 +15,6 @@ namespace PharmacyApplication.Models
         [DisplayName("Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
+        public string Pronouns { get; set; }
     }
 }
