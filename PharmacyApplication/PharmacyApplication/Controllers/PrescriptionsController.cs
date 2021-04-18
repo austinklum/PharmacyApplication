@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,12 +20,14 @@ namespace PharmacyApplication.Controllers
     public class PrescriptionsController : Controller
     {
         private readonly PrescriptionContext _prescriptionContext;
+        private readonly VerificationContext _verificationContext;
         private readonly DrugContext _drugContext;
 
-        public PrescriptionsController(PrescriptionContext prescriptionContext, DrugContext drugContext)
+        public PrescriptionsController(PrescriptionContext prescriptionContext, DrugContext drugContext, VerificationContext verificationContext)
         {
             _prescriptionContext = prescriptionContext;
             _drugContext = drugContext;
+            _verificationContext = verificationContext;
         }
 
         // GET: Prescriptions
@@ -77,6 +85,63 @@ namespace PharmacyApplication.Controllers
             }
 
             // send messages to insurance to get values back
+
+            int holderId = _verificationContext.VerifiedPatients.First(p => p.Name == prescription.PatientName).Id;
+            PTransaction transaction = new PTransaction
+            {
+                Id = prescription.Id,
+                Date = prescription.IssuedDate,
+                HolderId = holderId
+            };
+
+            string json = JsonSerializer.Serialize(transaction);
+
+            var bytes = Encoding.UTF8.GetBytes(json);
+#if DEBUG
+            var httpRequest = (HttpWebRequest)WebRequest.Create("https://localhost:44306/api/PTransactionsAPI");
+#else
+            var httpRequest = (HttpWebRequest)WebRequest.Create("http://wngcsp86.intra.uwlax.edu:81/api/PTransactionsAPI");
+#endif
+
+            httpRequest.Method = "POST";
+            httpRequest.ContentLength = bytes.Length;
+            httpRequest.ContentType = "application/json";
+            Stream dataStream = httpRequest.GetRequestStream();
+            dataStream.Write(bytes, 0, bytes.Length);
+            dataStream.Close();
+
+            WebResponse response = httpRequest.GetResponse();
+
+            foreach(PrescribedDrug pd in prescribedDrugs)
+            {
+                Subtransaction subtransaction = new Subtransaction
+                {
+                    Id = pd.Id,
+                    PTransactionId = prescription.Id,
+                    DrugId = pd.DrugId,
+                    Count = pd.Count,
+                    AmountPaid = 0,
+                    Accepted = 0,
+                };
+
+                string subtransactionJson = JsonSerializer.Serialize(subtransaction);
+
+                var subtransactionBytes = Encoding.UTF8.GetBytes(subtransactionJson);
+#if DEBUG
+                var request = (HttpWebRequest)WebRequest.Create("https://localhost:44306/api/SubtransactionsAPI");
+#else
+                var request = (HttpWebRequest)WebRequest.Create("http://wngcsp86.intra.uwlax.edu:81/api/SubtransactionsAPI");
+#endif
+
+                request.Method = "POST";
+                request.ContentLength = subtransactionBytes.Length;
+                request.ContentType = "application/json";
+                Stream stream = request.GetRequestStream();
+                stream.Write(subtransactionBytes, 0, subtransactionBytes.Length);
+                stream.Close();
+
+                WebResponse subtransactionResponse = request.GetResponse();
+            }
 
             prescription.BillCreated = null;
             _prescriptionContext.Prescriptions.Update(prescription);
