@@ -21,10 +21,15 @@ namespace PharmacyApplication.Controllers
         }
 
         // GET: Drugs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            var drugs = from d in _context.Drugs select d;
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                drugs = drugs.Where(d => d.MedicalName.Contains(searchString));
+            }
             HttpContext.Session.SetString("DrugCountValidation", "");
-            return View(await _context.Drugs.ToListAsync());
+            return View(await drugs.ToListAsync());
         }
 
         // GET: Drugs/Details/5
