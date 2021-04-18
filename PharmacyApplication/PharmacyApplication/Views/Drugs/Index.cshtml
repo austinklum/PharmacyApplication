@@ -5,7 +5,12 @@
 }
 
 <h1>Drugs</h1>
-
+<form asp-controller="Drugs" asp-action="Index" method="get">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
