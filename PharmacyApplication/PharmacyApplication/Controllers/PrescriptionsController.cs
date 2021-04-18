@@ -87,7 +87,7 @@ namespace PharmacyApplication.Controllers
             // send messages to insurance to get values back
             SendPrescription(prescription, prescribedDrugs);
 
-            prescription.BillCreated = null;
+            prescription.SentToInsurance = null;
             _prescriptionContext.Prescriptions.Update(prescription);
             _prescriptionContext.SaveChanges();
 

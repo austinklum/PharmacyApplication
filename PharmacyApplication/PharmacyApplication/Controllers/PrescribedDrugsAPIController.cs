@@ -83,6 +83,11 @@ namespace PharmacyApplication.Controllers
             PrescribedDrug found = _context.PrescribedDrugs.First(p => p.Id == prescribedDrug.Id);
             found.CoveredAmount = prescribedDrug.CoveredAmount;
             _context.PrescribedDrugs.Update(found);
+
+            Prescription prescription = _context.Prescriptions.First(p => p.Id == found.PrescriptionId);
+            prescription.SentToInsurance = true;
+            _context.Prescriptions.Update(prescription);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPrescribedDrug), new { id = prescribedDrug.Id }, prescribedDrug);
