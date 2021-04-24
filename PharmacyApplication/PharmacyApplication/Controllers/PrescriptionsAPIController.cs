@@ -42,6 +42,20 @@ namespace PharmacyApplication.Controllers
             return prescription;
         }
 
+        // GET: api/PrescriptionsAPI/5
+        [HttpGet("prescribedDrug/{id}")]
+        public async Task<ActionResult<PrescribedDrug>> GetPrescribedDrug(int id)
+        {
+            var prescribedDrug = await _context.PrescribedDrugs.FindAsync(id);
+
+            if (prescribedDrug == null)
+            {
+                return NotFound();
+            }
+
+            return prescribedDrug;
+        }
+
         // PUT: api/PrescriptionsAPI/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -84,6 +98,27 @@ namespace PharmacyApplication.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPrescription), new { id = prescription.Id }, prescription);
+        }
+
+        // POST: api/PrescriptionsAPI
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost("AddPrescriptionFromHealthcare")]
+        public async Task<ActionResult<Prescription>> AddPrescriptionFromHealthcare(Prescription prescription)
+        {
+            _context.Prescriptions.Add(prescription);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetPrescription), new { id = prescription.Id }, prescription);
+        }
+
+        [HttpPost("AddPrescribedDrugFromHealthcare")]
+        public async Task<ActionResult<PrescribedDrug>> AddPrescriptionDrugFromHealthcare(PrescribedDrug prescribedDrug)
+        {
+            _context.PrescribedDrugs.Add(prescribedDrug);
+            await _context.SaveChangesAsync();
+  
+            return CreatedAtAction(nameof(GetPrescribedDrug), new { id = prescribedDrug.Id }, prescribedDrug);
         }
 
         // DELETE: api/PrescriptionsAPI/5
