@@ -15,9 +15,10 @@ namespace PharmacyApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private UserContext _userContext;
+        private PharmacistContext _pharmacistContext;
 
         Random random;
-        private List<String> SecurityQuestions = new List<string>{ "What is your mother's maiden name?",
+        public static List<String> SecurityQuestions = new List<string>{ "What is your mother's maiden name?",
                                                                    "Where did you go to highschool?",
                                                                    "What city were you born in?",
                                                                    "What is the make and model of your first car?",
@@ -31,11 +32,13 @@ namespace PharmacyApplication.Controllers
         private const string SecurityQuestionNum = "SecurityQuestionNum";
         private const string SecurityQuestionText = "SecurityQuestionText";
         private const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
+        public static string UserId = "UserId";
 
-        public HomeController(ILogger<HomeController> logger, UserContext context)
+        public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
             _logger = logger;
             _userContext = context;
+            _pharmacistContext = pharmacistContext;
             random = new Random();
         }
 
@@ -124,6 +127,8 @@ namespace PharmacyApplication.Controllers
                    (enteredUser.SecQ3Response != null && enteredUser.SecQ3Response.Equals(foundUser.SecQ3Response)))
                 {
                     HttpContext.Session.SetString("Role", "Pharmacist");
+                    HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
+                    HttpContext.Session.SetString("Username", foundUser.Username);
                     //send to user dashboard ;
                     return RedirectToAction("UserDashBoard");
                 }
@@ -198,7 +203,14 @@ namespace PharmacyApplication.Controllers
 
         public ActionResult MyDetails()
         {
-            return View();
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+            UserDetailsViewModel vm = new UserDetailsViewModel
+            {
+                CurrentUser = foundUser,
+                CurrentPharmacist = foundPharmacist
+            };
+            return View(vm);
         }
 
         public ActionResult LogOut()

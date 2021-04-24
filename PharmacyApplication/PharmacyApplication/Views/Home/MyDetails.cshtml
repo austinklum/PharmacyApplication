@@ -1,1 +1,33 @@
-﻿ 
+﻿@model PharmacyApplication.Models.UserDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>My Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentPharmacist.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentPharmacist.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentPharmacist.Pronouns)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentPharmacist.Pronouns)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CurrentUser.SecQ1Index)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CurrentUser.SecQ1Index)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="UserDashBoard" class="btn btn-primary btn-block" style="width: 15%">Back to Dashboard</a>
+</div>

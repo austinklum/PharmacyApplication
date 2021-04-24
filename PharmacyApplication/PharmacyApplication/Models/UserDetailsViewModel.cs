@@ -7,7 +7,7 @@ namespace PharmacyApplication.Models
 {
     public class UserDetailsViewModel
     {
-        User CurrentUser;
-        Pharmacist CurrentPharmacist;
+        public User CurrentUser;
+        public Pharmacist CurrentPharmacist;
     }
 }
