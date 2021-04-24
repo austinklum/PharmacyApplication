@@ -1,0 +1,18 @@
+﻿@model PharmacyApplication.Models.UserDetailsViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Edit</h4>
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { vm = Model}))
+{
+    @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
+    @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
+    @Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
+    @Html.TextBoxFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-control" })
+    @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
+    @Html.TextBoxFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-control" })
+    @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
+    @Html.TextBoxFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-control" })
+    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+}

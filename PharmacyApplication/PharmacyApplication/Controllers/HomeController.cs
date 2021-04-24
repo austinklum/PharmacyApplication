@@ -216,6 +216,29 @@ namespace PharmacyApplication.Controllers
             return View(vm);
         }
 
+        public ActionResult EditMyDetails()
+        {
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+            UserDetailsViewModel vm = new UserDetailsViewModel
+            {
+                CurrentUser = foundUser,
+                CurrentPharmacist = foundPharmacist
+            };
+            return View(vm);
+        }
+
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(UserDetailsViewModel vm)
+        {
+            return RedirectToAction("MyDetails");
+        }
+
         public ActionResult LogOut()
         {
             HttpContext.Session.SetString("Username", "");
