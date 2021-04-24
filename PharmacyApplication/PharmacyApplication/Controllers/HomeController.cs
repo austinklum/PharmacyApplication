@@ -196,6 +196,11 @@ namespace PharmacyApplication.Controllers
             }
         }
 
+        public ActionResult MyDetails()
+        {
+            return View();
+        }
+
         public ActionResult LogOut()
         {
             HttpContext.Session.SetString("Username", "");
