@@ -5,41 +5,53 @@
 }
 
 <h4>Edit</h4>
-@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { vm = Model }))
+@using (Html.BeginForm("EditMyDetails", "Home", FormMethod.Post, new { vm = Model }))
 {
     @Html.HiddenFor(a => a.CurrentUser.Id, new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
+        @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentUser.Password)
+    </div>
 
-    @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
-    @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
+        @Html.DropDownListFor(a => a.CurrentUser.SecQ1Index, Model.Questions, "Select a security question", new { @class = "form-control" })
 
-    @*@Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
-        @Html.TextBoxFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-control" })*@
+        @Html.LabelFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-label" })
+        @Html.TextBoxFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ1Response)
+    </div>
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
-    @Html.DropDownListFor(a => a.CurrentUser.SecQ1Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
+        @Html.DropDownListFor(a => a.CurrentUser.SecQ2Index, Model.Questions, "Select a security question", new { @class = "form-control" })
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-label" })
-    @Html.TextBoxFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-control" })
+        @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
+        @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response)
+    </div>
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
-    @*@Html.TextBoxFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-control" })*@
-    @Html.DropDownListFor(a => a.CurrentUser.SecQ2Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
+        @Html.DropDownListFor(a => a.CurrentUser.SecQ3Index, Model.Questions, "Select a security question", new { @class = "form-control" })
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
-    @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
+        @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
+        @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response)
+    </div>
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
-    @*@Html.TextBoxFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-control" })*@
-    @Html.DropDownListFor(a => a.CurrentUser.SecQ3Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentPharmacist.Name, new { @class = "form-label" })
+        @Html.TextBoxFor(a => a.CurrentPharmacist.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Name)
+    </div>
 
-    @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
-    @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
-
-    @Html.LabelFor(a => a.CurrentPharmacist.Name, new { @class = "form-label" })
-    @Html.TextBoxFor(a => a.CurrentPharmacist.Name, new { @class = "form-control" })
-
-    @Html.LabelFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-label" })
-    @Html.TextBoxFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-control" })
+    <div>
+        @Html.LabelFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-label" })
+        @Html.TextBoxFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Pronouns)
+    </div>
 
     <input type="submit" value="Submit" class="btn btn-primary btn-block" />
 }

@@ -230,14 +230,14 @@ namespace PharmacyApplication.Controllers
             return View(vm);
         }
 
-        public ActionResult Edit()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public ActionResult Edit(UserDetailsViewModel vm)
+        public ActionResult EditMyDetails(UserDetailsViewModel vm)
         {
+            if(!ModelState.IsValid)
+            {
+                vm.Questions = GetSelectListItems(SecurityQuestions);
+                return View(vm);
+            }
             User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
             Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
 
