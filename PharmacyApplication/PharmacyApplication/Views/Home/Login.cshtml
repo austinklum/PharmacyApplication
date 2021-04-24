@@ -38,7 +38,7 @@
                         {
                             <text>@HttpContextAccessor.HttpContext.Session.GetString("Username")</text>
                         }
-                        @Html.ValidationMessageFor(a => a.Username)
+                        @Html.ValidationMessageFor(a => a.Username, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-outline mb-4">
@@ -46,7 +46,7 @@
                         {
                             @Html.LabelFor(a => a.Password, new { @class = "form-label" })
                             @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(a => a.Password)
+                            @Html.ValidationMessageFor(a => a.Password, "", new { @class = "text-danger" })
                         }
 
                     </div>
@@ -60,7 +60,7 @@
                         {
                             <label class="form-label">@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</label>
                             @Html.TextBoxFor(a => a.SecQ1Response, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(a => a.SecQ1Response)
+                            @Html.ValidationMessageFor(a => a.SecQ1Response, "", new { @class = "text-danger" })
                         }
                     </div>
                     <div class="form-outline mb-4">
@@ -68,7 +68,7 @@
                         {
                             <label class="form-label">@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</label>
                             @Html.TextBoxFor(a => a.SecQ2Response, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(a => a.SecQ2Response)
+                            @Html.ValidationMessageFor(a => a.SecQ2Response, "", new { @class = "text-danger" })
                         }
                     </div>
                     <div class="form-outline mb-4">
@@ -76,7 +76,7 @@
                         {
                             <label class="form-label">@HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionText")</label>
                             @Html.TextBoxFor(a => a.SecQ3Response, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(a => a.SecQ3Response)
+                            @Html.ValidationMessageFor(a => a.SecQ3Response, "", new { @class = "text-danger" })
                         }
                     </div>
                     <div class="form-outline mb-4">
