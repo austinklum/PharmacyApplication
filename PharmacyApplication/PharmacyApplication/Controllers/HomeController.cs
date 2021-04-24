@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -93,10 +95,17 @@ namespace PharmacyApplication.Controllers
                     HttpContext.Session.SetString(SecurityQuestionNum, "4");
                     return View();
                 }
+                SHA512 hasher = new SHA512Managed();
                 //No security question responses, so check if password is correct
                 if (enteredUser.SecQ1Response == null && enteredUser.SecQ2Response == null && enteredUser.SecQ3Response == null)
                 {
-                    if (foundUser.Password.Equals(enteredUser.Password))
+
+                    byte[] saltedPwd = Encoding.ASCII.GetBytes(enteredUser.Password + Encoding.ASCII.GetString(foundUser.Salt));
+                    byte[] saltedHashedPwd = hasher.ComputeHash(saltedPwd);
+
+
+                    if (foundUser.PasswordHash.SequenceEqual(saltedHashedPwd))
+                    //if (foundUser.Password.Equals(enteredUser.Password))
                     {
                         //send to first security question
                         int nextQuestionNum = random.Next(1, 4);
@@ -123,10 +132,21 @@ namespace PharmacyApplication.Controllers
                     }
                     return View(enteredUser);
                 }
+
+                byte[] saltedQ1 = Encoding.ASCII.GetBytes(enteredUser.SecQ1Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ1 = hasher.ComputeHash(saltedQ1);
+                byte[] saltedQ2 = Encoding.ASCII.GetBytes(enteredUser.SecQ2Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ2 = hasher.ComputeHash(saltedQ2);
+                byte[] saltedQ3 = Encoding.ASCII.GetBytes(enteredUser.SecQ3Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ3 = hasher.ComputeHash(saltedQ3);
+
                 //Check if any are right
-                if ((enteredUser.SecQ1Response != null && enteredUser.SecQ1Response.Equals(foundUser.SecQ1Response)) ||
+                /*if ((enteredUser.SecQ1Response != null && enteredUser.SecQ1Response.Equals(foundUser.SecQ1Response)) ||
                    (enteredUser.SecQ2Response != null && enteredUser.SecQ2Response.Equals(foundUser.SecQ2Response)) ||
-                   (enteredUser.SecQ3Response != null && enteredUser.SecQ3Response.Equals(foundUser.SecQ3Response)))
+                   (enteredUser.SecQ3Response != null && enteredUser.SecQ3Response.Equals(foundUser.SecQ3Response)))*/
+                if ((enteredUser.SecQ1Response != null && saltedHashedQ1.SequenceEqual(foundUser.SecQ1ResponseHash)) ||
+                   (enteredUser.SecQ2Response != null && saltedHashedQ2.SequenceEqual(foundUser.SecQ2ResponseHash)) ||
+                   (enteredUser.SecQ3Response != null && saltedHashedQ3.SequenceEqual(foundUser.SecQ3ResponseHash)))
                 {
                     HttpContext.Session.SetString("Role", "Pharmacist");
                     HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
