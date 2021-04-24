@@ -238,6 +238,45 @@ namespace PharmacyApplication.Controllers
         [HttpPost]
         public ActionResult Edit(UserDetailsViewModel vm)
         {
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+
+            if(!string.IsNullOrEmpty(vm.CurrentUser.Password))
+            {
+                foundUser.Password = vm.CurrentUser.Password;
+            }
+
+            foundUser.SecQ1Index = vm.CurrentUser.SecQ1Index;
+            foundUser.SecQ2Index = vm.CurrentUser.SecQ2Index;
+            foundUser.SecQ3Index = vm.CurrentUser.SecQ3Index;
+
+            if(!string.IsNullOrEmpty(vm.CurrentUser.SecQ1Response))
+            {
+                foundUser.SecQ1Response = vm.CurrentUser.SecQ1Response;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ2Response))
+            {
+                foundUser.SecQ2Response = vm.CurrentUser.SecQ2Response;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ3Response))
+            {
+                foundUser.SecQ3Response = vm.CurrentUser.SecQ3Response;
+            }
+
+            if(!string.IsNullOrEmpty(vm.CurrentPharmacist.Name))
+            {
+                foundPharmacist.Name = vm.CurrentPharmacist.Name;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentPharmacist.Pronouns))
+            {
+                foundPharmacist.Pronouns = vm.CurrentPharmacist.Pronouns;
+            }
+
+            _userContext.Users.Update(foundUser);
+            _userContext.SaveChanges();
+            _pharmacistContext.Pharmacists.Update(foundPharmacist);
+            _pharmacistContext.SaveChanges();
+
             return RedirectToAction("MyDetails");
         }
 
