@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PharmacyApplication.Data;
 using PharmacyApplication.Models;
@@ -225,6 +226,7 @@ namespace PharmacyApplication.Controllers
                 CurrentUser = foundUser,
                 CurrentPharmacist = foundPharmacist
             };
+            vm.Questions = GetSelectListItems(SecurityQuestions);
             return View(vm);
         }
 
@@ -245,6 +247,27 @@ namespace PharmacyApplication.Controllers
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");
+        }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<string> elements)
+        {
+            // Create an empty list to hold result of the operation
+            var selectList = new List<SelectListItem>();
+
+            // For each string in the 'elements' variable, create a new SelectListItem object
+            // that has both its Value and Text properties set to a particular value.
+            // This will result in MVC rendering each item as:
+            //     <option value="State Name">State Name</option>
+            for(int i = 0; i < elements.Count(); i++)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = elements.ElementAt(i)
+                }); ;
+            }
+
+            return selectList;
         }
     }
 }
