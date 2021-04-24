@@ -1,5 +1,6 @@
 ﻿
 @using Microsoft.AspNetCore.Http
+@using PharmacyApplication.Controllers
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
@@ -41,7 +42,10 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
                         </li>
                         <li>
-                            <label class="text-light d-sm-inline-flex ">Welcome, @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()</label>
+                            <label class="text-light d-sm-inline-flex mr-1">Welcome, @HttpContextAccessor.HttpContext.Session.GetString(HomeController.Name).ToString()</label>
+                        </li>
+                        <li>
+                            <a asp-action="MyDetails" asp-id="@int.Parse(HttpContextAccessor.HttpContext.Session.GetString(HomeController.UserId))" class="text-light d-sm-inline-flex">View my details</a>
                         </li>
                         <li>
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="LogOut">Log out</a>

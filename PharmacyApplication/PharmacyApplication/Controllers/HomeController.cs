@@ -33,6 +33,7 @@ namespace PharmacyApplication.Controllers
         private const string SecurityQuestionText = "SecurityQuestionText";
         private const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
         public static string UserId = "UserId";
+        public static string Name = "Name";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
@@ -129,6 +130,8 @@ namespace PharmacyApplication.Controllers
                     HttpContext.Session.SetString("Role", "Pharmacist");
                     HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
                     HttpContext.Session.SetString("Username", foundUser.Username);
+                    Pharmacist pharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+                    HttpContext.Session.SetString(Name, pharmacist.Name);
                     //send to user dashboard ;
                     return RedirectToAction("UserDashBoard");
                 }
