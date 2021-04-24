@@ -277,6 +277,9 @@ namespace PharmacyApplication.Controllers
             _pharmacistContext.Pharmacists.Update(foundPharmacist);
             _pharmacistContext.SaveChanges();
 
+            HttpContext.Session.SetString(Name, foundPharmacist.Name);
+            HttpContext.Session.SetString("Username", foundUser.Username);
+
             return RedirectToAction("MyDetails");
         }
 
@@ -290,13 +293,7 @@ namespace PharmacyApplication.Controllers
 
         private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<string> elements)
         {
-            // Create an empty list to hold result of the operation
             var selectList = new List<SelectListItem>();
-
-            // For each string in the 'elements' variable, create a new SelectListItem object
-            // that has both its Value and Text properties set to a particular value.
-            // This will result in MVC rendering each item as:
-            //     <option value="State Name">State Name</option>
             for(int i = 0; i < elements.Count(); i++)
             {
                 selectList.Add(new SelectListItem
