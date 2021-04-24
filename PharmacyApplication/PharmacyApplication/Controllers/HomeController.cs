@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PharmacyApplication.Data;
 using PharmacyApplication.Models;
@@ -15,9 +16,10 @@ namespace PharmacyApplication.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private UserContext _userContext;
+        private PharmacistContext _pharmacistContext;
 
         Random random;
-        private List<String> SecurityQuestions = new List<string>{ "What is your mother's maiden name?",
+        public static List<String> SecurityQuestions = new List<string>{ "What is your mother's maiden name?",
                                                                    "Where did you go to highschool?",
                                                                    "What city were you born in?",
                                                                    "What is the make and model of your first car?",
@@ -31,11 +33,14 @@ namespace PharmacyApplication.Controllers
         private const string SecurityQuestionNum = "SecurityQuestionNum";
         private const string SecurityQuestionText = "SecurityQuestionText";
         private const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
+        public static string UserId = "UserId";
+        public static string Name = "Name";
 
-        public HomeController(ILogger<HomeController> logger, UserContext context)
+        public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
             _logger = logger;
             _userContext = context;
+            _pharmacistContext = pharmacistContext;
             random = new Random();
         }
 
@@ -124,6 +129,10 @@ namespace PharmacyApplication.Controllers
                    (enteredUser.SecQ3Response != null && enteredUser.SecQ3Response.Equals(foundUser.SecQ3Response)))
                 {
                     HttpContext.Session.SetString("Role", "Pharmacist");
+                    HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
+                    HttpContext.Session.SetString("Username", foundUser.Username);
+                    Pharmacist pharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+                    HttpContext.Session.SetString(Name, pharmacist.Name);
                     //send to user dashboard ;
                     return RedirectToAction("UserDashBoard");
                 }
@@ -196,12 +205,105 @@ namespace PharmacyApplication.Controllers
             }
         }
 
+        public ActionResult MyDetails()
+        {
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+            UserDetailsViewModel vm = new UserDetailsViewModel
+            {
+                CurrentUser = foundUser,
+                CurrentPharmacist = foundPharmacist
+            };
+            return View(vm);
+        }
+
+        public ActionResult EditMyDetails()
+        {
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+            UserDetailsViewModel vm = new UserDetailsViewModel
+            {
+                CurrentUser = foundUser,
+                CurrentPharmacist = foundPharmacist
+            };
+            vm.Questions = GetSelectListItems(SecurityQuestions);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult EditMyDetails(UserDetailsViewModel vm)
+        {
+            if (!ModelState.IsValid || vm.CurrentUser.SecQ2Index == vm.CurrentUser.SecQ1Index || vm.CurrentUser.SecQ3Index == vm.CurrentUser.SecQ1Index || vm.CurrentUser.SecQ3Index == vm.CurrentUser.SecQ2Index)
+            {
+                vm.Questions = GetSelectListItems(SecurityQuestions);
+                return View(vm);
+            }
+            User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
+            Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
+
+            if(!string.IsNullOrEmpty(vm.CurrentUser.Password))
+            {
+                foundUser.Password = vm.CurrentUser.Password;
+            }
+
+            foundUser.SecQ1Index = vm.CurrentUser.SecQ1Index;
+            foundUser.SecQ2Index = vm.CurrentUser.SecQ2Index;
+            foundUser.SecQ3Index = vm.CurrentUser.SecQ3Index;
+
+            if(!string.IsNullOrEmpty(vm.CurrentUser.SecQ1Response))
+            {
+                foundUser.SecQ1Response = vm.CurrentUser.SecQ1Response;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ2Response))
+            {
+                foundUser.SecQ2Response = vm.CurrentUser.SecQ2Response;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ3Response))
+            {
+                foundUser.SecQ3Response = vm.CurrentUser.SecQ3Response;
+            }
+
+            if(!string.IsNullOrEmpty(vm.CurrentPharmacist.Name))
+            {
+                foundPharmacist.Name = vm.CurrentPharmacist.Name;
+            }
+            if (!string.IsNullOrEmpty(vm.CurrentPharmacist.Pronouns))
+            {
+                foundPharmacist.Pronouns = vm.CurrentPharmacist.Pronouns;
+            }
+
+            _userContext.Users.Update(foundUser);
+            _userContext.SaveChanges();
+            _pharmacistContext.Pharmacists.Update(foundPharmacist);
+            _pharmacistContext.SaveChanges();
+
+            HttpContext.Session.SetString(Name, foundPharmacist.Name);
+            HttpContext.Session.SetString("Username", foundUser.Username);
+
+            return RedirectToAction("MyDetails");
+        }
+
         public ActionResult LogOut()
         {
             HttpContext.Session.SetString("Username", "");
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");
+        }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<string> elements)
+        {
+            var selectList = new List<SelectListItem>();
+            for(int i = 0; i < elements.Count(); i++)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = elements.ElementAt(i)
+                }); ;
+            }
+
+            return selectList;
         }
     }
 }
