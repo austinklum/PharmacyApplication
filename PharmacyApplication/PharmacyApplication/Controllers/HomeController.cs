@@ -233,7 +233,7 @@ namespace PharmacyApplication.Controllers
         [HttpPost]
         public ActionResult EditMyDetails(UserDetailsViewModel vm)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid || vm.CurrentUser.SecQ2Index == vm.CurrentUser.SecQ1Index || vm.CurrentUser.SecQ3Index == vm.CurrentUser.SecQ1Index || vm.CurrentUser.SecQ3Index == vm.CurrentUser.SecQ2Index)
             {
                 vm.Questions = GetSelectListItems(SecurityQuestions);
                 return View(vm);

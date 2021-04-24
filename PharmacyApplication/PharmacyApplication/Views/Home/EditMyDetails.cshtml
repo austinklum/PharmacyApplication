@@ -26,21 +26,35 @@
         </div>
 
         <div>
-            @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
-            @Html.DropDownListFor(a => a.CurrentUser.SecQ2Index, Model.Questions, "Select a security question", new { @class = "form-control" })
-
-            @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
-            @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response, "", new { @class = "text-danger" })
+            <div>
+                @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
+                @Html.DropDownListFor(a => a.CurrentUser.SecQ2Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+                @if (Model.CurrentUser.SecQ2Index == Model.CurrentUser.SecQ1Index)
+                {
+                    <label class="text-danger">Cannot select a security question more than once</label>
+                }
+            </div>
+            <div>
+                @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
+                @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div>
-            @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
-            @Html.DropDownListFor(a => a.CurrentUser.SecQ3Index, Model.Questions, "Select a security question", new { @class = "form-control" })
-
-            @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
-            @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response, "", new { @class = "text-danger" })
+            <div>
+                @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
+                @Html.DropDownListFor(a => a.CurrentUser.SecQ3Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+                @if (Model.CurrentUser.SecQ3Index == Model.CurrentUser.SecQ1Index || Model.CurrentUser.SecQ3Index == Model.CurrentUser.SecQ2Index)
+                {
+                    <label class="text-danger">Cannot select a security question more than once</label>
+                }
+            </div>
+            <div>
+                @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
+                @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div>
