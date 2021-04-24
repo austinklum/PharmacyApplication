@@ -11,7 +11,7 @@
     <div>
         @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
         @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentUser.Password)
+        @Html.ValidationMessageFor(a => a.CurrentUser.Password, "", new { @class = "text-danger" })
     </div>
 
     <div>
@@ -20,7 +20,7 @@
 
         @Html.LabelFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-label" })
         @Html.TextBoxFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ1Response)
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ1Response, "", new { @class = "text-danger" })
     </div>
 
     <div>
@@ -29,7 +29,7 @@
 
         @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
         @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response)
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response, "", new { @class = "text-danger" })
     </div>
 
     <div>
@@ -38,19 +38,19 @@
 
         @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
         @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response)
+        @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response, "", new { @class = "text-danger" })
     </div>
 
     <div>
         @Html.LabelFor(a => a.CurrentPharmacist.Name, new { @class = "form-label" })
         @Html.TextBoxFor(a => a.CurrentPharmacist.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Name)
+        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Name, "", new { @class = "text-danger" })
     </div>
 
     <div>
         @Html.LabelFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-label" })
         @Html.TextBoxFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-control" })
-        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Pronouns)
+        @Html.ValidationMessageFor(a => a.CurrentPharmacist.Pronouns, "", new { @class = "text-danger" })
     </div>
 
     <input type="submit" value="Submit" class="btn btn-primary btn-block" />
