@@ -105,7 +105,8 @@ namespace PharmacyApplication.Controllers
                 }
                 SHA512 hasher = new SHA512Managed();
                 //No security question responses, so check if password is correct
-                if (enteredUser.SecQ1Response == null && enteredUser.SecQ2Response == null && enteredUser.SecQ3Response == null)
+                //if (enteredUser.SecQ1Response == null && enteredUser.SecQ2Response == null && enteredUser.SecQ3Response == null)
+                if (enteredUser.SecQ1Response == null && enteredUser.SecQ2Response == null && enteredUser.SecQ3Response == null && !HttpContext.Session.GetString(SecurityQuestionsAttempted).Contains("1"))
                 {
 
                     byte[] saltedPwd = Encoding.ASCII.GetBytes(enteredUser.Password + Encoding.ASCII.GetString(foundUser.Salt));
@@ -266,9 +267,14 @@ namespace PharmacyApplication.Controllers
             User foundUser = _userContext.Users.First(u => u.Id.ToString() == HttpContext.Session.GetString(UserId));
             Pharmacist foundPharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
 
-            if(!string.IsNullOrEmpty(vm.CurrentUser.Password))
+
+            SHA512 hasher = new SHA512Managed();
+
+            if (!string.IsNullOrEmpty(vm.CurrentUser.Password))
             {
-                foundUser.Password = vm.CurrentUser.Password;
+                byte[] saltedPwd = Encoding.ASCII.GetBytes(vm.CurrentUser.Password + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedPwd = hasher.ComputeHash(saltedPwd);
+                foundUser.PasswordHash = saltedHashedPwd;
             }
 
             foundUser.SecQ1Index = vm.CurrentUser.SecQ1Index;
@@ -277,15 +283,21 @@ namespace PharmacyApplication.Controllers
 
             if(!string.IsNullOrEmpty(vm.CurrentUser.SecQ1Response))
             {
-                foundUser.SecQ1Response = vm.CurrentUser.SecQ1Response;
+                byte[] saltedQ1 = Encoding.ASCII.GetBytes(vm.CurrentUser.SecQ1Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ1 = hasher.ComputeHash(saltedQ1);
+                foundUser.SecQ1ResponseHash = saltedHashedQ1;
             }
             if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ2Response))
             {
-                foundUser.SecQ2Response = vm.CurrentUser.SecQ2Response;
+                byte[] saltedQ2 = Encoding.ASCII.GetBytes(vm.CurrentUser.SecQ2Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ2 = hasher.ComputeHash(saltedQ2);
+                foundUser.SecQ2ResponseHash = saltedHashedQ2;
             }
             if (!string.IsNullOrEmpty(vm.CurrentUser.SecQ3Response))
             {
-                foundUser.SecQ3Response = vm.CurrentUser.SecQ3Response;
+                byte[] saltedQ3 = Encoding.ASCII.GetBytes(vm.CurrentUser.SecQ3Response + Encoding.ASCII.GetString(foundUser.Salt));
+                byte[] saltedHashedQ3 = hasher.ComputeHash(saltedQ3);
+                foundUser.SecQ3ResponseHash = saltedHashedQ3;
             }
 
             if(!string.IsNullOrEmpty(vm.CurrentPharmacist.Name))
