@@ -4,72 +4,83 @@
     ViewData["Title"] = "Edit";
 }
 
-<h4>Edit</h4>
+<h4>Edit details</h4>
 
 <div>
     @using (Html.BeginForm("EditMyDetails", "Home", FormMethod.Post, new { vm = Model }))
     {
         @Html.HiddenFor(a => a.CurrentUser.Id, new { @class = "form-control" })
-        <div>
-            @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
-            @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentUser.Password, "", new { @class = "text-danger" })
-        </div>
-
-        <div>
-            @Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
-            @Html.DropDownListFor(a => a.CurrentUser.SecQ1Index, Model.Questions, "Select a security question", new { @class = "form-control" })
-
-            @Html.LabelFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-label" })
-            @Html.TextBoxFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentUser.SecQ1Response, "", new { @class = "text-danger" })
-        </div>
-
-        <div>
-            <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.LabelFor(a => a.CurrentUser.Password, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
+                @Html.PasswordFor(a => a.CurrentUser.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentUser.Password, "", new { @class = "text-danger" })
+            </dd>
+            <dt class="col-sm-2">
+                @Html.LabelFor(a => a.CurrentUser.SecQ1Index, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DropDownListFor(a => a.CurrentUser.SecQ1Index, Model.Questions, "Select a security question", new { @class = "form-control" })
+            </dd>
+            <dt class="col-sm-2">
+                @Html.LabelFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(a => a.CurrentUser.SecQ1Response, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentUser.SecQ1Response, "", new { @class = "text-danger" })
+            </dd>
+            <dt class="col-sm-2">
                 @Html.LabelFor(a => a.CurrentUser.SecQ2Index, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
                 @Html.DropDownListFor(a => a.CurrentUser.SecQ2Index, Model.Questions, "Select a security question", new { @class = "form-control" })
                 @if (Model.CurrentUser.SecQ2Index == Model.CurrentUser.SecQ1Index)
                 {
                     <label class="text-danger">Cannot select a security question more than once</label>
                 }
-            </div>
-            <div>
+            </dd>
+            <dt class="col-sm-2">
                 @Html.LabelFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
                 @Html.TextBoxFor(a => a.CurrentUser.SecQ2Response, new { @class = "form-control" })
                 @Html.ValidationMessageFor(a => a.CurrentUser.SecQ2Response, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div>
-            <div>
+            </dd>
+            <dt class="col-sm-2">
                 @Html.LabelFor(a => a.CurrentUser.SecQ3Index, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
                 @Html.DropDownListFor(a => a.CurrentUser.SecQ3Index, Model.Questions, "Select a security question", new { @class = "form-control" })
                 @if (Model.CurrentUser.SecQ3Index == Model.CurrentUser.SecQ1Index || Model.CurrentUser.SecQ3Index == Model.CurrentUser.SecQ2Index)
                 {
                     <label class="text-danger">Cannot select a security question more than once</label>
                 }
-            </div>
-            <div>
+            </dd>
+            <dt class="col-sm-2">
                 @Html.LabelFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
                 @Html.TextBoxFor(a => a.CurrentUser.SecQ3Response, new { @class = "form-control" })
                 @Html.ValidationMessageFor(a => a.CurrentUser.SecQ3Response, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div>
-            @Html.LabelFor(a => a.CurrentPharmacist.Name, new { @class = "form-label" })
-            @Html.TextBoxFor(a => a.CurrentPharmacist.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentPharmacist.Name, "", new { @class = "text-danger" })
-        </div>
-
-        <div>
-            @Html.LabelFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-label" })
-            @Html.TextBoxFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.CurrentPharmacist.Pronouns, "", new { @class = "text-danger" })
-        </div>
-        <p> </p>
-        <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </dd>
+            <dt class="col-sm-2">
+                @Html.LabelFor(a => a.CurrentPharmacist.Name, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(a => a.CurrentPharmacist.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentPharmacist.Name, "", new { @class = "text-danger" })
+            </dd>
+            <dt class="col-sm-2">
+                @Html.LabelFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-label" })
+            </dt>
+            <dd class="col-sm-10">
+                @Html.TextBoxFor(a => a.CurrentPharmacist.Pronouns, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.CurrentPharmacist.Pronouns, "", new { @class = "text-danger" })
+            </dd>
+        </dl>
+        <input type="submit" value="Submit" class="btn btn-primary btn-block" style="width: 15%"/>
     }
 </div>
 <p> </p>
