@@ -45,7 +45,7 @@
                             <label class="text-light d-sm-inline-flex mr-1">Welcome, @HttpContextAccessor.HttpContext.Session.GetString(HomeController.Name).ToString()</label>
                         </li>
                         <li>
-                            <a asp-action="MyDetails" asp-id="@int.Parse(HttpContextAccessor.HttpContext.Session.GetString(HomeController.UserId))" class="text-light d-sm-inline-flex">View my details</a>
+                            <a asp-controller="Home" asp-action="MyDetails" asp-id="@int.Parse(HttpContextAccessor.HttpContext.Session.GetString(HomeController.UserId))" class="text-light d-sm-inline-flex">View my details</a>
                         </li>
                         <li>
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="LogOut">Log out</a>
