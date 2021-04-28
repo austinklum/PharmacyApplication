@@ -93,6 +93,7 @@ namespace PharmacyApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> LoginAsync(User enteredUser)
         {
+            HttpContext.Session.SetString(IncorrectPasswordString, "");
             if (ModelState.IsValid)
             {
                 if (enteredUser.Username == null)
@@ -103,6 +104,7 @@ namespace PharmacyApplication.Controllers
                 if (foundUser == null)
                 {
                     HttpContext.Session.SetString(Username, "");
+                    HttpContext.Session.SetString(IncorrectPasswordString, "Username or password is incorrect");
                     HttpContext.Session.SetString(SecurityQuestionNum, "0");
                     return View();
                 }
@@ -156,6 +158,8 @@ namespace PharmacyApplication.Controllers
 
                         return View(enteredUser);
                     }
+
+                    HttpContext.Session.SetString(IncorrectPasswordString, "Username or password is incorrect");
                     return View(enteredUser);
                 }
 
