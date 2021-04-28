@@ -100,7 +100,7 @@
 
 
 
-@if (HttpContextAccessor.HttpContext.Session.GetString("SecurityQuestionNum").Equals("4"))
+@if (HttpContextAccessor.HttpContext.Session.GetString(HomeController.SecurityQuestionNum).Equals("4"))
 {
     <h1>Your account has been locked. Please contact an administrator.</h1>
 }

@@ -43,7 +43,7 @@ namespace PharmacyApplication.Controllers
                 Prescriptions = prescriptions,
                 IncludeProcessed = includeProcessed,
             };
-            HttpContext.Session.SetString("PrescriptionFillValidation", "");
+            HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "");
             return View(vm);
         }
 
@@ -89,7 +89,7 @@ namespace PharmacyApplication.Controllers
                 Drug drug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
                 if(pd.Count > drug.Stock)
                 {
-                    HttpContext.Session.SetString("PrescriptionFillValidation", "Not enough " + drug.MedicalName);
+                    HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "Not enough " + drug.MedicalName);
                     return RedirectToAction("Details", new { id = id });
                 }
             }

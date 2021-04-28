@@ -41,6 +41,8 @@ namespace PharmacyApplication.Controllers
         public static string IncorrectPasswordString = "IncorrectPasswordString";
         public static string Role = "Role";
         public static string IncludeProcessed = "IncludeProcessed";
+        public static string DrugCountValidation = "DrugCountValidation";
+        public static string PrescriptionFillValidation = "PrescriptionFillValidation";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
@@ -84,12 +86,12 @@ namespace PharmacyApplication.Controllers
             {
                 if (enteredUser.Username == null)
                 {
-                    enteredUser.Username = HttpContext.Session.GetString("Username");
+                    enteredUser.Username = HttpContext.Session.GetString(Username);
                 }
                 var foundUser = _userContext.Users.FirstOrDefault(a => a.Username.Equals(enteredUser.Username));
                 if (foundUser == null)
                 {
-                    HttpContext.Session.SetString("Username", "");
+                    HttpContext.Session.SetString(Username, "");
                     HttpContext.Session.SetString(SecurityQuestionNum, "0");
                     return View();
                 }
@@ -103,7 +105,7 @@ namespace PharmacyApplication.Controllers
                 }
                 if (foundUser.AccountStatus != 1)
                 {
-                    HttpContext.Session.SetString("Username", "");
+                    HttpContext.Session.SetString(Username, "");
                     HttpContext.Session.SetString(SecurityQuestionNum, "4");
                     return View();
                 }
@@ -124,7 +126,7 @@ namespace PharmacyApplication.Controllers
                         int nextQuestionNum = random.Next(1, 4);
                         HttpContext.Session.SetString(SecurityQuestionNum, nextQuestionNum.ToString());
                         HttpContext.Session.SetString(SecurityQuestionsAttempted, nextQuestionNum.ToString());
-                        HttpContext.Session.SetString("Username", foundUser.Username);
+                        HttpContext.Session.SetString(Username, foundUser.Username);
 
                         switch (nextQuestionNum)
                         {
@@ -158,9 +160,9 @@ namespace PharmacyApplication.Controllers
                    (enteredUser.SecQ2Response != null && saltedHashedQ2.SequenceEqual(foundUser.SecQ2ResponseHash)) ||
                    (enteredUser.SecQ3Response != null && saltedHashedQ3.SequenceEqual(foundUser.SecQ3ResponseHash)))
                 {
-                    HttpContext.Session.SetString("Role", "Pharmacist");
+                    HttpContext.Session.SetString(Role, "Pharmacist");
                     HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
-                    HttpContext.Session.SetString("Username", foundUser.Username);
+                    HttpContext.Session.SetString(Username, foundUser.Username);
                     Pharmacist pharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
                     HttpContext.Session.SetString(Name, pharmacist.Name);
                     //send to user dashboard ;
@@ -225,7 +227,7 @@ namespace PharmacyApplication.Controllers
 
         public ActionResult UserDashBoard()
         {
-            if (HttpContext.Session.GetString("Username") != null)
+            if (HttpContext.Session.GetString(Username) != null)
             {
                 return View();
             }
@@ -319,14 +321,14 @@ namespace PharmacyApplication.Controllers
             _pharmacistContext.SaveChanges();
 
             HttpContext.Session.SetString(Name, foundPharmacist.Name);
-            HttpContext.Session.SetString("Username", foundUser.Username);
+            HttpContext.Session.SetString(Username, foundUser.Username);
 
             return RedirectToAction("MyDetails");
         }
 
         public ActionResult LogOut()
         {
-            HttpContext.Session.SetString("Username", "");
+            HttpContext.Session.SetString(Username, "");
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");

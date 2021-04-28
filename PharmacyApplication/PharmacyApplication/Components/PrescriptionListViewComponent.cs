@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApplication.Data;
 using PharmacyApplication.Models;
+using PharmacyApplication.Controllers
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace PharmacyApplication.Components
                 Prescriptions = prescriptions,
                 IncludeProcessed = false,
             };
-            HttpContext.Session.SetString("PrescriptionFillValidation", "");
+            HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "");
             return View(vm);
         }
     }
