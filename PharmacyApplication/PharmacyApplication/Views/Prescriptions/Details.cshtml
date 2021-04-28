@@ -99,9 +99,9 @@
                 {
                     <p>Not yet sent to insurance</p>
                     <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 25%">Send to insurance</a>
-                    @if (!HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation").Equals(""))
+                    @if (!HttpContextAccessor.HttpContext.Session.GetString("PharmacyPrescriptionFillValidation").Equals(""))
                     {
-                        <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PrescriptionFillValidation")</span>
+                        <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PharmacyPrescriptionFillValidation")</span>
                     }
                 }
                 if(Model.CurrentPrescription.SentToInsurance == null)

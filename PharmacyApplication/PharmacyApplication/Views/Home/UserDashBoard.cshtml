@@ -6,10 +6,10 @@
 
 <fieldset>
     <legend>User DashBoard</legend>
-    @if (HttpContextAccessor.HttpContext.Session.GetString("Name") != null)
+    @if (HttpContextAccessor.HttpContext.Session.GetString("PharmacyName") != null)
     {
         <p>
-            <text>Welcome @HttpContextAccessor.HttpContext.Session.GetString("Name").ToString()</text>
+            <text>Welcome @HttpContextAccessor.HttpContext.Session.GetString("PharmacyName").ToString()</text>
         </p>
     }
     <h4>Unfinished prescriptions</h4>

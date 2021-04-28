@@ -33,7 +33,7 @@ namespace PharmacyApplication.Components
                 Prescriptions = prescriptions,
                 IncludeProcessed = false,
             };
-            HttpContext.Session.SetString("PrescriptionFillValidation", "");
+            HttpContext.Session.SetString("PharmacyPrescriptionFillValidation", "");
             return View(vm);
         }
     }
