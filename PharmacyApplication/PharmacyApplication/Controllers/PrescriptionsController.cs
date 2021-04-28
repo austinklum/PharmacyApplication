@@ -150,7 +150,7 @@ namespace PharmacyApplication.Controllers
 #if DEBUG
                 var request = (HttpWebRequest)WebRequest.Create("https://localhost:44306/api/SubtransactionsAPI");
 #else
-                var request = (HttpWebRequest)WebRequest.Create("http://wngcsp86.intra.uwlax.edu:81/api/SubtransactionsAPI");
+                var request = (HttpWebRequest)WebRequest.Create("https://wngcsp86.intra.uwlax.edu:81/api/SubtransactionsAPI");
 #endif
 
                 request.Method = "POST";
