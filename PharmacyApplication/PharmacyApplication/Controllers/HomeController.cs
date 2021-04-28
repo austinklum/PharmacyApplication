@@ -32,11 +32,15 @@ namespace PharmacyApplication.Controllers
                                                                    "What street did you live on in third grade?",
                                                                    "What was your childhood best friend's name?" };
 
-        private const string SecurityQuestionNum = "SecurityQuestionNum";
-        private const string SecurityQuestionText = "SecurityQuestionText";
-        private const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
+        public const string SecurityQuestionNum = "SecurityQuestionNum";
+        public const string SecurityQuestionText = "SecurityQuestionText";
+        public const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
         public static string UserId = "UserId";
+        public static string Username = "Username";
         public static string Name = "Name";
+        public static string IncorrectPasswordString = "IncorrectPasswordString";
+        public static string Role = "Role";
+        public static string IncludeProcessed = "IncludeProcessed";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
@@ -48,7 +52,7 @@ namespace PharmacyApplication.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("Username", "");
+            HttpContext.Session.SetString(Username, "");
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");
