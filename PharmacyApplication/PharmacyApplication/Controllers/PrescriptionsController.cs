@@ -120,7 +120,7 @@ namespace PharmacyApplication.Controllers
 #if DEBUG
             var httpRequest = (HttpWebRequest)WebRequest.Create("https://localhost:44306/api/PTransactionsAPI");
 #else
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://wngcsp86.intra.uwlax.edu:81/api/PTransactionsAPI");
+            var httpRequest = (HttpWebRequest)WebRequest.Create("https://wngcsp86.intra.uwlax.edu:81/api/PTransactionsAPI");
 #endif
 
             httpRequest.Method = "POST";
