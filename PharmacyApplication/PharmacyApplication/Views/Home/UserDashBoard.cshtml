@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using PharmacyApplication.Controllers
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.Title = "UserDashBoard";
@@ -6,10 +7,10 @@
 
 <fieldset>
     <legend>User DashBoard</legend>
-    @if (HttpContextAccessor.HttpContext.Session.GetString("Name") != null)
+    @if (HttpContextAccessor.HttpContext.Session.GetString(HomeController.Name) != null)
     {
         <p>
-            <text>Welcome @HttpContextAccessor.HttpContext.Session.GetString("Name").ToString()</text>
+            <text>Welcome @HttpContextAccessor.HttpContext.Session.GetString(HomeController.Name).ToString()</text>
         </p>
     }
     <h4>Unfinished prescriptions</h4>

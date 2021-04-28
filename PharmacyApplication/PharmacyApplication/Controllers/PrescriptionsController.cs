@@ -43,7 +43,7 @@ namespace PharmacyApplication.Controllers
                 Prescriptions = prescriptions,
                 IncludeProcessed = includeProcessed,
             };
-            HttpContext.Session.SetString("PrescriptionFillValidation", "");
+            HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "");
             return View(vm);
         }
 
@@ -89,7 +89,7 @@ namespace PharmacyApplication.Controllers
                 Drug drug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
                 if(pd.Count > drug.Stock)
                 {
-                    HttpContext.Session.SetString("PrescriptionFillValidation", "Not enough " + drug.MedicalName);
+                    HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "Not enough " + drug.MedicalName);
                     return RedirectToAction("Details", new { id = id });
                 }
             }
@@ -120,7 +120,7 @@ namespace PharmacyApplication.Controllers
 #if DEBUG
             var httpRequest = (HttpWebRequest)WebRequest.Create("https://localhost:44306/api/PTransactionsAPI");
 #else
-            var httpRequest = (HttpWebRequest)WebRequest.Create("http://wngcsp86.intra.uwlax.edu:81/api/PTransactionsAPI");
+            var httpRequest = (HttpWebRequest)WebRequest.Create("https://wngcsp86.intra.uwlax.edu:81/api/PTransactionsAPI");
 #endif
 
             httpRequest.Method = "POST";

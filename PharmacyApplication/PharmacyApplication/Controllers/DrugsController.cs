@@ -28,7 +28,7 @@ namespace PharmacyApplication.Controllers
             {
                 drugs = drugs.Where(d => d.MedicalName.Contains(searchString));
             }
-            HttpContext.Session.SetString("DrugCountValidation", "");
+            HttpContext.Session.SetString(HomeController.DrugCountValidation, "");
             return View(await drugs.ToListAsync());
         }
 
@@ -61,16 +61,16 @@ namespace PharmacyApplication.Controllers
                 }
                 catch
                 {
-                    HttpContext.Session.SetString("DrugCountValidation", "Must be a positive integer");
+                    HttpContext.Session.SetString(HomeController.DrugCountValidation, "Must be a positive integer");
                     return RedirectToAction("Details", new { id = drugId });
                 }
             }
             if (numNewDrugs <= 0)
             {
-                HttpContext.Session.SetString("DrugCountValidation", "Must be a positive integer");
+                HttpContext.Session.SetString(HomeController.DrugCountValidation, "Must be a positive integer");
                 return RedirectToAction("Details", new { id = drugId });
             }
-            HttpContext.Session.SetString("DrugCountValidation", "");
+            HttpContext.Session.SetString(HomeController.DrugCountValidation, "");
             Drug drug = await _context.Drugs.FirstAsync(d => d.Id == drugId);
             drug.Stock += numNewDrugs;
 
