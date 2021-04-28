@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharmacyApplication.Data;
 using PharmacyApplication.Models;
-using PharmacyApplication.Controllers
+using PharmacyApplication.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
