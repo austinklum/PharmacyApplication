@@ -32,9 +32,9 @@
             </div>
             <div>
                 <input type="text" name="NewStock" />
-                @if (!HttpContextAccessor.HttpContext.Session.GetString("DrugCountValidation").Equals(""))
+                @if (!HttpContextAccessor.HttpContext.Session.GetString("PharmacyDrugCountValidation").Equals(""))
                 {
-                    <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("DrugCountValidation")</span>
+                    <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString("PharmacyDrugCountValidation")</span>
                 }
                 <input type="hidden" name="DrugId" value="@Model.Id" />
             </div>

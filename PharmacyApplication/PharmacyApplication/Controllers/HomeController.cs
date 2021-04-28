@@ -30,11 +30,11 @@ namespace PharmacyApplication.Controllers
                                                                    "What street did you live on in third grade?",
                                                                    "What was your childhood best friend's name?" };
 
-        private const string SecurityQuestionNum = "SecurityQuestionNum";
-        private const string SecurityQuestionText = "SecurityQuestionText";
-        private const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
-        public static string UserId = "UserId";
-        public static string Name = "Name";
+        private const string SecurityQuestionNum = "PharmacySecurityQuestionNum";
+        private const string SecurityQuestionText = "PharmacySecurityQuestionText";
+        private const string SecurityQuestionsAttempted = "PharmacySecurityQuestionsAttempted";
+        public static string UserId = "PharmacyUserId";
+        public static string Name = "PharmacyName";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
@@ -46,7 +46,7 @@ namespace PharmacyApplication.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("Username", "");
+            HttpContext.Session.SetString("PharmacyUsername", "");
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");
@@ -78,18 +78,18 @@ namespace PharmacyApplication.Controllers
             {
                 if (enteredUser.Username == null)
                 {
-                    enteredUser.Username = HttpContext.Session.GetString("Username");
+                    enteredUser.Username = HttpContext.Session.GetString("PharmacyUsername");
                 }
                 var foundUser = _userContext.Users.FirstOrDefault(a => a.Username.Equals(enteredUser.Username));
                 if (foundUser == null)
                 {
-                    HttpContext.Session.SetString("Username", "");
+                    HttpContext.Session.SetString("PharmacyUsername", "");
                     HttpContext.Session.SetString(SecurityQuestionNum, "0");
                     return View();
                 }
                 if (foundUser.AccountStatus != 1)
                 {
-                    HttpContext.Session.SetString("Username", "");
+                    HttpContext.Session.SetString("PharmacyUsername", "");
                     HttpContext.Session.SetString(SecurityQuestionNum, "4");
                     return View();
                 }
@@ -102,7 +102,7 @@ namespace PharmacyApplication.Controllers
                         int nextQuestionNum = random.Next(1, 4);
                         HttpContext.Session.SetString(SecurityQuestionNum, nextQuestionNum.ToString());
                         HttpContext.Session.SetString(SecurityQuestionsAttempted, nextQuestionNum.ToString());
-                        HttpContext.Session.SetString("Username", foundUser.Username);
+                        HttpContext.Session.SetString("PharmacyUsername", foundUser.Username);
 
                         switch (nextQuestionNum)
                         {
@@ -128,9 +128,9 @@ namespace PharmacyApplication.Controllers
                    (enteredUser.SecQ2Response != null && enteredUser.SecQ2Response.Equals(foundUser.SecQ2Response)) ||
                    (enteredUser.SecQ3Response != null && enteredUser.SecQ3Response.Equals(foundUser.SecQ3Response)))
                 {
-                    HttpContext.Session.SetString("Role", "Pharmacist");
+                    HttpContext.Session.SetString("PharmacyRole", "Pharmacist");
                     HttpContext.Session.SetString(UserId, foundUser.Id.ToString());
-                    HttpContext.Session.SetString("Username", foundUser.Username);
+                    HttpContext.Session.SetString("PharmacyUsername", foundUser.Username);
                     Pharmacist pharmacist = _pharmacistContext.Pharmacists.First(p => p.UserId == foundUser.Id);
                     HttpContext.Session.SetString(Name, pharmacist.Name);
                     //send to user dashboard ;
@@ -195,7 +195,7 @@ namespace PharmacyApplication.Controllers
 
         public ActionResult UserDashBoard()
         {
-            if (HttpContext.Session.GetString("Username") != null)
+            if (HttpContext.Session.GetString("PharmacyUsername") != null)
             {
                 return View();
             }
@@ -278,14 +278,14 @@ namespace PharmacyApplication.Controllers
             _pharmacistContext.SaveChanges();
 
             HttpContext.Session.SetString(Name, foundPharmacist.Name);
-            HttpContext.Session.SetString("Username", foundUser.Username);
+            HttpContext.Session.SetString("PharmacyUsername", foundUser.Username);
 
             return RedirectToAction("MyDetails");
         }
 
         public ActionResult LogOut()
         {
-            HttpContext.Session.SetString("Username", "");
+            HttpContext.Session.SetString("PharmacyUsername", "");
             HttpContext.Session.SetString(SecurityQuestionNum, "0");
             HttpContext.Session.SetString(SecurityQuestionsAttempted, "");
             return RedirectToAction("Login");
