@@ -18,7 +18,7 @@ namespace PharmacyApplication.Models
         [DisplayName("Refill Count")]
         public int RefillCount { get; set; }
         [DisplayName("Covered Amount")]
-        [DisplayFormat(DataFormatString = "{0:P2}")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         public double CoveredAmount { get; set; }
         public bool Returned { get; set; }
 
