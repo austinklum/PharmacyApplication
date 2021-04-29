@@ -85,17 +85,25 @@
                 <p>Verification failed</p>
             }
         </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
-        </dt>
-        <dd class="col-sm-9">
-            @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
-            {
-                if (Model.CurrentPrescription.SentToInsurance == true)
+        @if (Model.CurrentPrescription.PhysicianVerified == true && Model.CurrentPrescription.PatientVerified == true)
+        {
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.CurrentPrescription.SentToInsurance == true)
                 {
-                    <a asp-controller="Prescriptions" asp-action="ViewBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 15%">View Bill</a>
+                    if (Model.CurrentPrescription.BillCreated == null)
+                    {
+                        <a asp-controller="Prescriptions" asp-action="ViewBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 15%">Create Bill</a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
+                        <a asp-controller="Prescriptions" asp-action="ViewBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 15%">View Bill</a>
+                    }
                 }
-                if (Model.CurrentPrescription.SentToInsurance == false)
+                @if (Model.CurrentPrescription.SentToInsurance == false)
                 {
                     <p>Not yet sent to insurance</p>
                     <a asp-controller="Prescriptions" asp-action="CreateBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 25%">Send to insurance</a>
@@ -104,16 +112,12 @@
                         <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString(HomeController.PrescriptionFillValidation)</span>
                     }
                 }
-                if (Model.CurrentPrescription.SentToInsurance == null)
+                @if (Model.CurrentPrescription.SentToInsurance == null)
                 {
                     <p>Sent to insurance, waiting for response</p>
                 }
-            }
-            else
-            {
-                <p>Not created, verification needed</p>
-            }
-        </dd>
+            </dd>
+        }
     </dl>
 </div>
 <table class="table">
@@ -139,30 +143,30 @@
     <tbody>
         @foreach (var item in Model.PrescribedDrugs)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentDrug.MedicalName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dosage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RefillCount)
-            </td>
-            <td>
-                @if (item.Returned)
-                {
-                    @Html.DisplayFor(modelItem => item.CoveredAmount)
-                }
-                else
-                {
-                    <p>No response yet</p>
-                }
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentDrug.MedicalName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dosage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefillCount)
+                </td>
+                <td>
+                    @if (item.Returned)
+                    {
+                        @Html.DisplayFor(modelItem => item.CoveredAmount)
+                    }
+                    else
+                    {
+                        <p>No response yet</p>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>

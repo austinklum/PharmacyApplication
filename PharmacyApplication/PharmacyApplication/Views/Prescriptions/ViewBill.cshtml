@@ -4,6 +4,28 @@
 }
 
 <div class="row">
+    <div>
+        <dl>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CurrentPrescription.PhysicianName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.PatientName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CurrentPrescription.PatientName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
+            </dd>
+        </dl>
+    </div>
     <div class="col-md-12">
         <div class="h2">Bill</div>
         <table class="table table-bordered table-sm table-hover table-striped">

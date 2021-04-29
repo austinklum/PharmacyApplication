@@ -36,7 +36,7 @@ namespace PharmacyApplication.Controllers
             List<Prescription> prescriptions = (from p in _prescriptionContext.Prescriptions select p).ToList();
             if(!includeProcessed)
             {
-                prescriptions = prescriptions.Where(p => p.BillCreated == false).ToList();
+                prescriptions = prescriptions.Where(p => p.BillCreated == null).ToList();
             }
             PrescriptionsViewModel vm = new PrescriptionsViewModel
             {
@@ -178,6 +178,12 @@ namespace PharmacyApplication.Controllers
             }
 
             List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == id).ToList();
+            if(prescription.BillCreated == null)
+            {
+                prescription.BillCreated = DateTime.Now;
+                _prescriptionContext.Prescriptions.Update(prescription);
+                _prescriptionContext.SaveChanges();
+            }
             double costs = 0;
             foreach (PrescribedDrug pd in prescribedDrugs)
             {

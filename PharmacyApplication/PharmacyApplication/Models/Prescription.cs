@@ -30,8 +30,9 @@ namespace PharmacyApplication.Models
         [DisplayName("Patient Verification Status")]
         public bool? PatientVerified { get; set; }
         public bool? SentToInsurance { get; set; }
-        [DisplayName("Bill Status")]
-        public bool BillCreated { get; set; }
+        [DisplayName("Bill Creation Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime? BillCreated { get; set; }
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public double SubtotalCost { get; set; }
