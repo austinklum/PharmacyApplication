@@ -21,14 +21,14 @@
 
                 @foreach (var pd in Model.PrescribedDrugs)
                 {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.DrugCode)</td>
-                    <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.MedicalName)</td>
-                    <td>@Html.DisplayFor(modelItem => pd.Count)</td>
-                    <td>@Html.DisplayFor(modelItem => pd.TotalCost)</td>
-                    <td>@Html.DisplayFor(modelItem => pd.CoveredAmount)</td>
-                    <td>@Html.DisplayFor(modelItem => pd.Remaining)</td>
-                </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.DrugCode)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.MedicalName)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.Count)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.TotalCost)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.CoveredAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.Remaining)</td>
+                    </tr>
                 }
                 <tr>
                     <td></td>
@@ -58,11 +58,5 @@
         </table>
 
     </div>
-    <div class="col-sm-2">
-        <div class="btnbtn-success">
-            <p>download?</p>
-        @Html.ActionLink("Create Pdf", "CreatePdf", "Home") 
-        </div>
-
-    </div>
+    <a asp-controller="Prescriptions" asp-action="Details" asp-route-id="@Model.CurrentPrescription.Id" class="btn btn-primary btn-block" style="width: 15%">Back to Details</a>
 </div>
