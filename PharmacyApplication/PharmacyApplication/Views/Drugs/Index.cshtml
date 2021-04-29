@@ -28,7 +28,7 @@
             <td>@Html.DisplayFor(modelItem => item.MedicalName)</td>
             <td>@Html.DisplayFor(modelItem => item.Type)</td>
             <td>@Html.DisplayFor(modelItem => item.Stock)</td>
-            <td><label>$</label>@Html.DisplayFor(modelItem => item.CostPer)</td>
+            <td>@Html.DisplayFor(modelItem => item.CostPer)</td>
             <td>@Html.DisplayFor(modelItem => item.RecommendedDose)</td>
             <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-block">Details</a></td>
         </tr>

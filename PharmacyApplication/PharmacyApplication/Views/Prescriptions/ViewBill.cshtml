@@ -22,8 +22,8 @@
                 @foreach (var pd in Model.PrescribedDrugs)
                 {
                 <tr>
-                    <td>@*@pd.CurrentDrug.code*@drug code!</td>
-                    <td>@Html.DisplayFor(modelItem => pd.DrugName)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.DrugCode)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.MedicalName)</td>
                     <td>@Html.DisplayFor(modelItem => pd.Count)</td>
                     <td>@Html.DisplayFor(modelItem => pd.TotalCost)</td>
                     <td>@Html.DisplayFor(modelItem => pd.CoveredAmount)</td>

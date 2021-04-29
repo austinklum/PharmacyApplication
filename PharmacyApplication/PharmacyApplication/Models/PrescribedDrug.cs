@@ -23,9 +23,6 @@ namespace PharmacyApplication.Models
         public bool Returned { get; set; }
 
         [NotMapped]
-        [DisplayName("Drug Name")]
-        public string DrugName { get; set; }
-        [NotMapped]
         public Drug CurrentDrug { get; set; }
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C2}")]

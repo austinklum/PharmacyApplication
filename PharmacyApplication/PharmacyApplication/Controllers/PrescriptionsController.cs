@@ -65,7 +65,7 @@ namespace PharmacyApplication.Controllers
 
             foreach(PrescribedDrug pd in prescribedDrugs)
             {
-                pd.DrugName = _drugContext.Drugs.First(d => d.Id == pd.DrugId).MedicalName;
+                pd.CurrentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
             }
 
             PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
@@ -182,9 +182,9 @@ namespace PharmacyApplication.Controllers
             foreach (PrescribedDrug pd in prescribedDrugs)
             {
                 pd.CurrentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
-                pd.DrugName = pd.CurrentDrug.MedicalName;
                 pd.TotalCost = pd.CurrentDrug.CostPer * pd.Count;
-                costs += pd.TotalCost;
+                pd.Remaining = pd.TotalCost - pd.CoveredAmount;
+                costs += pd.Remaining;
             }
             prescription.SubtotalCost = costs;
             prescription.TaxCost = Math.Round(costs * 0.055f, 2);

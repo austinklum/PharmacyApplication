@@ -120,7 +120,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].DrugName)
+                @Html.DisplayNameFor(model => model.PrescribedDrugs[0].CurrentDrug.MedicalName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PrescribedDrugs[0].Count)
@@ -141,7 +141,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DrugName)
+                @Html.DisplayFor(modelItem => item.CurrentDrug.MedicalName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Count)
@@ -155,7 +155,7 @@
             <td>
                 @if (item.Returned)
                 {
-                    <label>$</label>@Html.DisplayFor(modelItem => item.CoveredAmount)
+                    @Html.DisplayFor(modelItem => item.CoveredAmount)
                 }
                 else
                 {
