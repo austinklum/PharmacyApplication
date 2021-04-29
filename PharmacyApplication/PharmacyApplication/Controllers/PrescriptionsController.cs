@@ -36,7 +36,7 @@ namespace PharmacyApplication.Controllers
             List<Prescription> prescriptions = (from p in _prescriptionContext.Prescriptions select p).ToList();
             if(!includeProcessed)
             {
-                prescriptions = prescriptions.Where(p => p.BillCreated == false).ToList();
+                prescriptions = prescriptions.Where(p => p.BillCreated == null).ToList();
             }
             PrescriptionsViewModel vm = new PrescriptionsViewModel
             {
@@ -65,7 +65,7 @@ namespace PharmacyApplication.Controllers
 
             foreach(PrescribedDrug pd in prescribedDrugs)
             {
-                pd.DrugName = _drugContext.Drugs.First(d => d.Id == pd.DrugId).MedicalName;
+                pd.CurrentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
             }
 
             PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
@@ -162,6 +162,42 @@ namespace PharmacyApplication.Controllers
 
                 WebResponse subtransactionResponse = request.GetResponse();
             }
+        }
+
+        public ActionResult ViewBill(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prescription = _prescriptionContext.Prescriptions.First(m => m.Id == id);
+            if (prescription == null)
+            {
+                return NotFound();
+            }
+
+            List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == id).ToList();
+            if(prescription.BillCreated == null)
+            {
+                prescription.BillCreated = DateTime.Now;
+                _prescriptionContext.Prescriptions.Update(prescription);
+                _prescriptionContext.SaveChanges();
+            }
+            double costs = 0;
+            foreach (PrescribedDrug pd in prescribedDrugs)
+            {
+                pd.CurrentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
+                pd.TotalCost = pd.CurrentDrug.CostPer * pd.Count;
+                pd.Remaining = pd.TotalCost - pd.CoveredAmount;
+                costs += pd.Remaining;
+            }
+            prescription.SubtotalCost = costs;
+            prescription.TaxCost = Math.Round(costs * 0.055f, 2);
+            prescription.TotalCost = prescription.SubtotalCost + prescription.TaxCost;
+
+            PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
+            return View(vm);
         }
 
         private bool PrescriptionExists(int id)

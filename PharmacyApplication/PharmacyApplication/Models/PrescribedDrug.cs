@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,11 +18,17 @@ namespace PharmacyApplication.Models
         [DisplayName("Refill Count")]
         public int RefillCount { get; set; }
         [DisplayName("Covered Amount")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         public double CoveredAmount { get; set; }
         public bool Returned { get; set; }
 
         [NotMapped]
-        [DisplayName("Drug Name")]
-        public string DrugName { get; set; }
+        public Drug CurrentDrug { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public double TotalCost { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public double Remaining { get; set; }
     }
 }

@@ -23,11 +23,11 @@ namespace PharmacyApplication.Components
             _verificationContext = verificationContext;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             List<Prescription> prescriptions = (from p in _prescriptionContext.Prescriptions select p).ToList();
 
-            prescriptions = prescriptions.Where(p => p.BillCreated == false).ToList();
+            prescriptions = prescriptions.Where(p => p.BillCreated == null).ToList();
 
             PrescriptionsViewModel vm = new PrescriptionsViewModel
             {

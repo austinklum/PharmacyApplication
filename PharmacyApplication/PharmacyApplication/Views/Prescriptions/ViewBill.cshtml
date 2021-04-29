@@ -1,0 +1,95 @@
+﻿@model PharmacyApplication.Models.PrescriptionDetailsViewModel
+@{
+    ViewData["Title"] = "ViewBill";
+}
+<style>
+    #header-content {
+        display: flex;
+        height: 20px;
+        align-content: flex-end;
+    }
+</style>
+<div class="row">
+    <div style="float: left; width: 50%; align-content: start;">
+        <div>
+            <img class="mx-auto d-block" src="~/lib/pharmacylogogood.png">
+        </div>
+    </div>
+    <div style="float: right; width: 50%; text-anchor: end; text-align:right;">
+        <dl>
+            <dt class="col-sm-12">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.BillCreated)
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
+            </dd>
+            <dt class="col-sm-12">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.PhysicianName)
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.CurrentPrescription.PhysicianName)
+            </dd>
+            <dt class="col-sm-12">
+                @Html.DisplayNameFor(model => model.CurrentPrescription.PatientName)
+            </dt>
+            <dd class="col-sm-12">
+                @Html.DisplayFor(model => model.CurrentPrescription.PatientName)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-12">
+        <div class="h4">UWL Pharmacy</div>
+        <table class="table table-bordered table-sm table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Drug Code</th>
+                    <th>Drug Name</th>
+                    <th>Quantity</th>
+                    <th>Total Cost</th>
+                    <th>Insurance Pays</th>
+                    <th>Patient Pays</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var pd in Model.PrescribedDrugs)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.DrugCode)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.CurrentDrug.MedicalName)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.Count)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.TotalCost)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.CoveredAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => pd.Remaining)</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Subtotal</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.SubtotalCost)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tax</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.TaxCost)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.TotalCost)</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <a asp-controller="Prescriptions" asp-action="Details" asp-route-id="@Model.CurrentPrescription.Id" class="btn btn-primary btn-block" style="width: 15%">Back to Details</a>
+</div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +30,17 @@ namespace PharmacyApplication.Models
         [DisplayName("Patient Verification Status")]
         public bool? PatientVerified { get; set; }
         public bool? SentToInsurance { get; set; }
-        [DisplayName("Bill Status")]
-        public bool BillCreated { get; set; }
+        [DisplayName("Bill Creation Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
+        public DateTime? BillCreated { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public double SubtotalCost { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public double TaxCost { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public double TotalCost { get; set; }
     }
 }
