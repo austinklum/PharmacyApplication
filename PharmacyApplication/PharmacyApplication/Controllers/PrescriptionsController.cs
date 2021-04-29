@@ -164,6 +164,36 @@ namespace PharmacyApplication.Controllers
             }
         }
 
+        public ActionResult ViewBill(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prescription = _prescriptionContext.Prescriptions.First(m => m.Id == id);
+            if (prescription == null)
+            {
+                return NotFound();
+            }
+
+            List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == id).ToList();
+            double costs = 0;
+            foreach (PrescribedDrug pd in prescribedDrugs)
+            {
+                pd.CurrentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
+                pd.DrugName = pd.CurrentDrug.MedicalName;
+                pd.TotalCost = pd.CurrentDrug.CostPer * pd.Count;
+                costs += pd.TotalCost;
+            }
+            prescription.SubtotalCost = costs;
+            prescription.TaxCost = Math.Round(costs * 0.055f, 2);
+            prescription.TotalCost = prescription.SubtotalCost + prescription.TaxCost;
+
+            PrescriptionDetailsViewModel vm = new PrescriptionDetailsViewModel { CurrentPrescription = prescription, PrescribedDrugs = prescribedDrugs };
+            return View(vm);
+        }
+
         private bool PrescriptionExists(int id)
         {
             return _prescriptionContext.Prescriptions.Any(e => e.Id == id);

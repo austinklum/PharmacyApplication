@@ -1,0 +1,70 @@
+﻿@model PharmacyApplication.Models.PrescriptionDetailsViewModel
+@{
+    ViewData["Title"] = "ViewBill";
+}
+
+<h1>Bill</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="h2 text-center"> Employee Details </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Drug Id</td>
+                    <td>Drug Name</td>
+                    <td>Quantity</td>
+                    <td>Total Cost</td>
+                    <td>Insurance Pays</td>
+                    <td>Patient Pays</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var pd in Model.PrescribedDrugs)
+                {
+                <tr>
+                    <td>@*@pd.CurrentDrug.code*@drug code!</td>
+                    <td>@Html.DisplayFor(modelItem => pd.DrugName)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.Count)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.TotalCost)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.CoveredAmount)</td>
+                    <td>@Html.DisplayFor(modelItem => pd.Remaining)</td>
+                </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Subtotal</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.SubtotalCost)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tax</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.TaxCost)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total</td>
+                    <td>@Html.DisplayFor(modelItem => Model.CurrentPrescription.TotalCost)</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-sm-2">
+        <div class="btnbtn-success">
+            <p>download?</p>
+        @Html.ActionLink("Create Pdf", "CreatePdf", "Home") 
+        </div>
+
+    </div>
+</div>

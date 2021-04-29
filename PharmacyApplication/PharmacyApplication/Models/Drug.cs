@@ -15,6 +15,7 @@ namespace PharmacyApplication.Models
         public string Type { get; set; }
         public int Stock { get; set; }
         [DisplayName("Cost per dose")]
+        [DisplayFormat(DataFormatString = "{0:D2}")]
         public double CostPer { get; set; }
         [DisplayName("Recommended Dose")]
         public string RecommendedDose { get; set; }
