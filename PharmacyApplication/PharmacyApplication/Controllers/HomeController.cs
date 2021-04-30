@@ -43,17 +43,17 @@ namespace PharmacyApplication.Controllers
                                                                    "What was the make of your first car?",
                                                                    "In which year, you first flew in an airplane?"};
 
-        public const string SecurityQuestionNum = "SecurityQuestionNum";
-        public const string SecurityQuestionText = "SecurityQuestionText";
-        public const string SecurityQuestionsAttempted = "SecurityQuestionsAttempted";
-        public static string UserId = "UserId";
-        public static string Username = "Username";
-        public static string Name = "Name";
-        public static string IncorrectPasswordString = "IncorrectPasswordString";
-        public static string Role = "Role";
-        public static string IncludeProcessed = "IncludeProcessed";
-        public static string DrugCountValidation = "DrugCountValidation";
-        public static string PrescriptionFillValidation = "PrescriptionFillValidation";
+        public const string SecurityQuestionNum = "PharmacySecurityQuestionNum";
+        public const string SecurityQuestionText = "PharmacySecurityQuestionText";
+        public const string SecurityQuestionsAttempted = "PharmacySecurityQuestionsAttempted";
+        public static string UserId = "PharmacyUserId";
+        public static string Username = "PharmacyUsername";
+        public static string Name = "PharmacyName";
+        public static string IncorrectPasswordString = "PharmacyIncorrectPasswordString";
+        public static string Role = "PharmacyRole";
+        public static string IncludeProcessed = "PharmacyIncludeProcessed";
+        public static string DrugCountValidation = "PharmacyDrugCountValidation";
+        public static string PrescriptionFillValidation = "PharmacyPrescriptionFillValidation";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {
