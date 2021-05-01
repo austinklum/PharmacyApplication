@@ -180,6 +180,24 @@ namespace PharmacyApplication.Controllers
             List<PrescribedDrug> prescribedDrugs = _prescriptionContext.PrescribedDrugs.Where(p => p.PrescriptionId == id).ToList();
             if(prescription.BillCreated == null)
             {
+                foreach (PrescribedDrug pd in prescribedDrugs)
+                {
+                    Drug currentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
+                    if(currentDrug.Stock < pd.Count)
+                    {
+                        HttpContext.Session.SetString(HomeController.PrescriptionFillValidation, "Not enough " + currentDrug.MedicalName);
+                        return RedirectToAction("Details", new { id = id });
+                    }
+                }
+                // If here, must have enough of all drugs
+                foreach (PrescribedDrug pd in prescribedDrugs)
+                {
+                    Drug currentDrug = _drugContext.Drugs.First(d => d.Id == pd.DrugId);
+                    currentDrug.Stock -= pd.Count;
+                    _drugContext.Drugs.Update(currentDrug);
+                    _drugContext.SaveChanges();
+
+                }
                 prescription.BillCreated = DateTime.Now;
                 _prescriptionContext.Prescriptions.Update(prescription);
                 _prescriptionContext.SaveChanges();

@@ -21,5 +21,6 @@ namespace PharmacyApplication.Models
         public double CostPer { get; set; }
         [DisplayName("Recommended Dose")]
         public string RecommendedDose { get; set; }
+        public string Vendor { get; set; }
     }
 }
