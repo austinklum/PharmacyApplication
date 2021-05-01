@@ -26,7 +26,7 @@ namespace PharmacyApplication.Controllers
             var drugs = from d in _context.Drugs select d;
             if(!string.IsNullOrEmpty(searchString))
             {
-                drugs = drugs.Where(d => d.MedicalName.Contains(searchString));
+                drugs = drugs.Where(d => d.MedicalName.Contains(searchString) || d.Vendor.Contains(searchString));
             }
             HttpContext.Session.SetString(HomeController.DrugCountValidation, "");
             return View(await drugs.ToListAsync());

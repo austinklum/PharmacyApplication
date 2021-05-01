@@ -19,6 +19,7 @@
             <th>@Html.DisplayNameFor(model => model.Stock)</th>
             <th>@Html.DisplayNameFor(model => model.CostPer)</th>
             <th>@Html.DisplayNameFor(model => model.RecommendedDose)</th>
+            <th>@Html.DisplayNameFor(model => model.Vendor)</th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +31,7 @@
             <td>@Html.DisplayFor(modelItem => item.Stock)</td>
             <td>@Html.DisplayFor(modelItem => item.CostPer)</td>
             <td>@Html.DisplayFor(modelItem => item.RecommendedDose)</td>
+            <td>@Html.DisplayFor(modelItem => item.Vendor)</td>
             <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-block">Details</a></td>
         </tr>
 }
