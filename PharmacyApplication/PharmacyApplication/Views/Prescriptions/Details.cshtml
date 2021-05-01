@@ -96,10 +96,14 @@
                     if (Model.CurrentPrescription.BillCreated == null)
                     {
                         <a asp-controller="Prescriptions" asp-action="ViewBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 15%">Create Bill</a>
+                        @if (!HttpContextAccessor.HttpContext.Session.GetString(HomeController.PrescriptionFillValidation).Equals(""))
+                        {
+                            <span class="badge badge-danger">@HttpContextAccessor.HttpContext.Session.GetString(HomeController.PrescriptionFillValidation)</span>
+                        }
                     }
                     else
                     {
-                        @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)
+                        <p>Created on @Html.DisplayFor(model => model.CurrentPrescription.BillCreated)</p>
                         <a asp-controller="Prescriptions" asp-action="ViewBill" asp-route-id="@(Model.CurrentPrescription.Id)" class="btn btn-primary btn-block" style="width: 15%">View Bill</a>
                     }
                 }
