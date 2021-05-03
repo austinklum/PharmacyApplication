@@ -10,6 +10,8 @@ namespace PharmacyApplication.Models
     public class Drug
     {
         public int Id { get; set; }
+        [DisplayName("Commercial Name")]
+        public string CommercialName { get; set; }
         [DisplayName("Medical Name")]
         public string MedicalName { get; set; }
         [DisplayName("Drug Code")]
