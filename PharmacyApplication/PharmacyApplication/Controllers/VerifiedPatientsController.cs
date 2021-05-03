@@ -123,5 +123,13 @@ namespace PharmacyApplication.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+
+        public IActionResult Delete(int id)
+        {
+            VerifiedPatient vp = _verificationContext.VerifiedPatients.FirstOrDefault(p => p.Id == id);
+            _verificationContext.Remove(vp);
+            _verificationContext.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
