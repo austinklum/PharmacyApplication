@@ -27,6 +27,7 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.TextBoxFor(a => a.LicenseNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.LicenseNumber, "", new { @class = "text-danger" })
                 @if (!string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString(HomeController.CreatePatientDOBValidation).ToString()))
                 {
                     <label class="text-danger">@HttpContextAccessor.HttpContext.Session.GetString(HomeController.CreatePatientDOBValidation).ToString()</label>

@@ -105,7 +105,10 @@ namespace PharmacyApplication.Controllers
                 return View(vp);
             }
 
-
+            if(!ModelState.IsValid)
+            {
+                return View(vp);
+            }
             _verificationContext.Add(vp);
             await _verificationContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
