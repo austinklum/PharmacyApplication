@@ -54,6 +54,10 @@ namespace PharmacyApplication.Controllers
         public static string IncludeProcessed = "PharmacyIncludeProcessed";
         public static string DrugCountValidation = "PharmacyDrugCountValidation";
         public static string PrescriptionFillValidation = "PharmacyPrescriptionFillValidation";
+        public static string CreatePatientNameValidation = "PharmacyCreatePatientNameValidation";
+        public static string CreatePatientAddressValidation = "PharmacyCreatePatientAddressValidation";
+        public static string CreatePatientPronounsValidation = "PharmacyCreatePatientPronounsValidation";
+        public static string CreatePatientDOBValidation = "PharmacyCreatePatientDOBValidation";
 
         public HomeController(ILogger<HomeController> logger, UserContext context, PharmacistContext pharmacistContext)
         {

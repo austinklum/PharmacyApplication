@@ -95,7 +95,11 @@ namespace PharmacyApplication.Controllers
             }
 
             // send messages to insurance to get values back
-            SendPrescription(prescription, prescribedDrugs);
+            var res = SendPrescription(prescription, prescribedDrugs);
+            if (res != null)
+            {
+                return res;
+            }
 
             prescription.SentToInsurance = null;
             _prescriptionContext.Prescriptions.Update(prescription);
@@ -104,7 +108,7 @@ namespace PharmacyApplication.Controllers
             return RedirectToAction("Details", new { id = id });
         }
 
-        private void SendPrescription(Prescription prescription, List<PrescribedDrug> prescribedDrugs)
+        private IActionResult SendPrescription(Prescription prescription, List<PrescribedDrug> prescribedDrugs)
         {
             int holderId = _verificationContext.VerifiedPatients.First(p => p.Name == prescription.PatientName).Id;
             PTransaction transaction = new PTransaction
@@ -130,7 +134,26 @@ namespace PharmacyApplication.Controllers
             dataStream.Write(bytes, 0, bytes.Length);
             dataStream.Close();
 
-            WebResponse response = httpRequest.GetResponse();
+            try
+            {
+                WebResponse response = httpRequest.GetResponse();
+            }
+            catch(WebException e)
+            {
+                if(e.Message == "The remote server returned an error: (404) Not Found.")
+                {
+                    prescription.SentToInsurance = true;
+                    foreach(PrescribedDrug pd in prescribedDrugs)
+                    {
+                        pd.Returned = true;
+                        pd.CoveredAmount = 0;
+                        _prescriptionContext.PrescribedDrugs.Update(pd);
+                    }
+                    _prescriptionContext.Prescriptions.Update(prescription);
+                    _prescriptionContext.SaveChanges();
+                    return RedirectToAction("Details", new { id = prescription.Id });
+                }
+            }
 
             foreach (PrescribedDrug pd in prescribedDrugs)
             {
@@ -162,6 +185,7 @@ namespace PharmacyApplication.Controllers
 
                 WebResponse subtransactionResponse = request.GetResponse();
             }
+            return null;
         }
 
         public ActionResult ViewBill(int id)
